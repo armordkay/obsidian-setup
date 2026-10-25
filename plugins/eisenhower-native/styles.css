@@ -1,0 +1,583 @@
+
+
+.native-eisenhower *, .native-eisenhower *::before, .native-eisenhower *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* Dashboard backgrounds with the original text and control colors. */
+.native-eisenhower, .modal.em-task-modal {
+ --do:#f28b9a;--decide:#7ab8d4;--delegate:#6ecfe8;--delete:#d8d8d8;
+ --ink:#1a1a2e;--radius:16px;
+ --font:var(--font-interface,Arial,sans-serif);
+ --em-surface:var(--background-primary,#fff);--em-muted:#3b3b48;
+ --em-task:#fff;--em-task-hover:#f7fafc;
+ --em-field:#fff;--em-field-hover:#f7fafc;
+ --em-border:rgba(26,26,46,.2);--em-focus:#4559bd;--em-focus-ring:rgba(69,89,189,.18);
+ --em-control:#e1eaf0;--em-control-hover:#d2e2ed;
+ --em-add-bg:#f7f8fa;--em-add-hover:#fff;
+ --em-add-border:#7a7a7a;--em-add-border-hover:#626262;
+ --em-delete:#000;--em-error:#7a1425;--em-check:#fff;
+ --em-scheme:light;
+ color-scheme:var(--em-scheme);
+}
+
+.theme-dark .native-eisenhower, .theme-dark .modal.em-task-modal {
+ --do:#513638;--decide:#2c4055;--delegate:#29423d;--delete:#3c404a;
+ --ink:#f1f3f9;--em-surface:var(--background-primary,#262626);
+ --em-muted:#c1c9d8;--em-task:#1b1d20;--em-task-hover:#24272b;
+ --em-field:#212121;--em-field-hover:#282b30;
+ --em-border:rgba(224,232,255,.22);--em-focus:#b4c3ff;--em-focus-ring:rgba(180,195,255,.2);
+ --em-control:#33373e;--em-control-hover:#414750;
+ --em-add-bg:#20262d;--em-add-hover:#2b333d;
+ --em-add-border:#777777;--em-add-border-hover:#929292;
+ --em-delete:#f1f3f9;--em-error:#ffb7c2;--em-check:#20232d;
+ --em-scheme:dark;
+}
+
+.native-eisenhower {
+
+    font-family: var(--font);
+
+    box-sizing: border-box;
+
+    background: transparent;
+
+    min-height: 0;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    padding: 28px 16px 60px;
+
+  }
+/* ── TOAST ── */
+.native-eisenhower .toast {
+
+    position: fixed;
+
+    bottom: 24px; left: 50%;
+
+    transform: translateX(-50%) translateY(10px);
+
+    background: var(--ink);
+
+    color: #fff;
+
+    padding: 9px 20px;
+
+    border-radius: 20px;
+
+    font-size: 0.8rem;
+
+    font-weight: 700;
+
+    opacity: 0;
+
+    transition: all 0.25s;
+
+    z-index: 1000;
+
+    pointer-events: none;
+
+    white-space: nowrap;
+
+  }
+
+.native-eisenhower .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+/* Compact save status in the top-right toolbar corner. */
+.native-eisenhower .em-sync-status {
+ display:inline-flex;align-items:center;gap:8px;margin-left:auto;flex-shrink:0;
+ min-height:28px;padding:5px 10px;border:1px solid var(--em-border);border-radius:999px;
+ background:var(--em-surface);color:var(--em-muted);font:600 .72rem var(--font);line-height:1.2;
+}
+.native-eisenhower .em-sync-status.is-error {color:var(--em-error);}
+
+.native-eisenhower .sync-dot {
+
+    width: 8px; height: 8px;
+
+    border-radius: 50%;
+
+    background: #ccc;
+
+    flex-shrink: 0;
+
+  }
+
+.native-eisenhower .sync-dot.connected { background: #38a169; box-shadow: 0 0 0 3px rgba(56,161,105,0.2); }
+
+.native-eisenhower .sync-dot.syncing { background: #d69e2e; }
+
+.native-eisenhower .sync-dot.error { background: #e53e3e; }
+
+/* ── WRAPPER ── */
+.native-eisenhower .matrix-wrapper { width: 100%; min-width: 0; flex: 1; display: flex; flex-direction: column; }
+/* ── AXIS ── */
+.native-eisenhower .axis-x {
+
+    display: flex;
+
+    justify-content: space-around;
+
+    padding: 0 64px 12px 64px;
+
+  }
+
+.native-eisenhower .axis-x span {
+
+    font-size: 1rem; font-weight: 900;
+
+    color: var(--ink); letter-spacing: 2px;
+
+    text-transform: uppercase;
+
+    -webkit-font-smoothing: antialiased;
+
+  }
+
+.native-eisenhower .axis-y-wrap { display: flex; flex: 1; min-width: 0; }
+
+/* Balance the white space beside the vertical axis on the left. */
+.native-eisenhower .axis-y-wrap::after {content:'';flex:0 0 64px;}
+
+.native-eisenhower .axis-y {
+
+    display: flex; flex-direction: column;
+
+    justify-content: space-around;
+
+    width: 64px; flex-shrink: 0; align-items: center;
+
+  }
+
+.native-eisenhower .axis-y span {
+
+    writing-mode: vertical-rl; transform: rotate(180deg);
+
+    font-size: 1rem; font-weight: 900; color: var(--ink);
+
+    letter-spacing: 2px; text-transform: uppercase;
+
+    -webkit-font-smoothing: antialiased;
+
+  }
+/* ── GRID ── */
+.native-eisenhower .matrix-grid {
+
+    flex: 1; display: grid;
+
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    grid-auto-rows: minmax(300px, 1fr);
+
+    gap: 10px;
+
+  }
+/* ── QUADRANT ── */
+.native-eisenhower .quadrant {
+
+    border-radius: var(--radius);
+
+    padding: 16px;
+
+    display: flex; flex-direction: column;
+
+    min-height: 340px;
+
+    position: relative; overflow: hidden;
+
+  }
+
+.native-eisenhower .q-do { background: var(--do); }
+
+.native-eisenhower .q-decide { background: var(--decide); }
+
+.native-eisenhower .q-delegate { background: var(--delegate); }
+
+.native-eisenhower .q-delete { background: var(--delete); }
+
+.native-eisenhower .q-icon { font-size: 2rem; margin-bottom: 6px; }
+
+.native-eisenhower .q-title { font-size: 1.25rem; font-weight: 900; color: var(--ink); line-height: 1; margin-bottom: 14px; }
+/* ── TASK LIST ── */
+.native-eisenhower .task-list {
+
+    flex: 1; display: flex; flex-direction: column;
+
+    gap: 6px; padding-right: 2px;
+
+  }
+
+.native-eisenhower .task-list::-webkit-scrollbar { width: 4px; }
+
+.native-eisenhower .task-list::-webkit-scrollbar-thumb { background: var(--em-border); border-radius: 2px; }
+
+.native-eisenhower .task-item {
+
+    background: var(--em-task);
+
+    border-radius: 8px; padding: 8px 10px;
+
+    display: flex; align-items: flex-start; gap: 8px;
+
+    font-size: 0.82rem; font-weight: 600; color: var(--ink);
+
+    transition: background 0.15s;
+
+  }
+
+.native-eisenhower .task-item:hover { background: var(--em-task-hover); }
+
+.native-eisenhower .task-item.done { opacity:0.5; text-decoration:line-through; }
+
+.native-eisenhower .task-skeleton {
+
+    background: rgba(255,255,255,0.4);
+
+    border-radius: 8px; height: 34px;
+
+    animation: em-skPulse 1.2s ease-in-out infinite;
+
+  }
+
+  @keyframes em-skPulse { 0%,100%{opacity:.5} 50%{opacity:1} }
+
+.native-eisenhower .task-cb {
+
+    width: 16px; height: 16px;
+
+    border: 2px solid var(--em-border);
+
+    border-radius: 4px; flex-shrink: 0; cursor: pointer;
+
+    display: flex; align-items: center; justify-content: center;
+
+    margin-top: 1px; transition: all 0.12s;
+
+  }
+
+.native-eisenhower .task-cb:hover { border-color: var(--ink); }
+
+.native-eisenhower .task-cb.checked { background: var(--ink); border-color: var(--ink); }
+
+.native-eisenhower .task-cb.checked::after { content: '✓'; color: #fff; font-size: 0.6rem; font-weight: 900; }
+
+.native-eisenhower .task-text { flex: 1; line-height: 1.4; word-break: break-word; }
+
+.native-eisenhower .task-del {
+
+    cursor: pointer; opacity: 0; font-size: 0.75rem;
+
+    padding: 1px 4px; border-radius: 4px;
+
+    color: var(--em-delete); transition: all 0.12s; flex-shrink: 0;
+
+  }
+
+.native-eisenhower .task-item:hover .task-del { opacity: 1; }
+
+.native-eisenhower .task-del:hover { background: var(--em-control); color: var(--em-delete); }
+/* ── ADD INPUT ── */
+.native-eisenhower .add-row { display: flex; gap: 6px; margin-top: 10px; }
+
+.native-eisenhower .add-input {
+
+    flex: 1; padding: 8px 12px; border: none; border-radius: 8px;
+
+    background: var(--em-field);
+
+    font-family: var(--font); font-size: 0.8rem; font-weight: 600;
+
+    color: var(--ink); outline: none; transition: background 0.15s; min-width: 0;
+
+  }
+
+.native-eisenhower .add-input::placeholder { color: var(--em-muted); font-weight: 500; }
+
+.native-eisenhower .add-input:focus { background: var(--em-task-hover); }
+
+.native-eisenhower .add-input:disabled, .native-eisenhower .add-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+
+.native-eisenhower .add-btn {
+
+    width: 32px; height: 32px; border: none; border-radius: 8px;
+
+    background: var(--em-control); color: var(--ink);
+
+    font-size: 1.2rem; font-weight: 700; cursor: pointer;
+
+    display: flex; align-items: center; justify-content: center;
+
+    flex-shrink: 0; transition: all 0.15s;
+
+  }
+
+.native-eisenhower .add-btn:hover:not(:disabled) { background: var(--em-control-hover); }
+/* ── EMPTY ── */
+.native-eisenhower .empty-hint {
+
+    text-align: center; padding: 20px 0 8px;
+
+    font-size: 0.75rem; color: var(--em-muted); font-style: italic;
+
+  }
+/* ── LEGEND ── */
+.native-eisenhower .legend {
+
+    display: flex; gap: 16px; flex-wrap: wrap;
+
+    justify-content: center; margin-top: 20px;
+
+    font-size: 0.78rem; font-weight: 700; color: #555;
+
+  }
+
+.native-eisenhower .legend-item { display: flex; align-items: center; gap: 6px; }
+
+.native-eisenhower .legend-dot { width: 12px; height: 12px; border-radius: 50%; }
+  @media (max-width: 600px) {
+
+.native-eisenhower .quadrant { min-height: 260px; padding: 12px; }
+
+
+  }
+
+
+.native-eisenhower { position:relative; width:100%; min-height:0; padding:16px 12px 24px; border-radius:0; color:var(--ink); container-type:inline-size; }
+.native-eisenhower .matrix-tools {width:100%;max-width:1040px;display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap;}
+.native-eisenhower .em-matrix-surface {
+ width:100%;max-width:1040px;min-width:0;padding:24px 20px 32px;
+ background:var(--em-surface);border-radius:16px;container-type:inline-size;
+}
+.native-eisenhower .open-source {border:0;background:transparent;color:var(--em-muted);font:600 .8rem var(--font);box-shadow:none;cursor:pointer;}
+.native-eisenhower .matrix-grid {min-width:0;}
+.native-eisenhower .quadrant {min-width:0;}
+.native-eisenhower .task-list {min-height:75px;}
+.native-eisenhower input.add-input {height:34px;box-shadow:none;width:0;flex:1;}
+.native-eisenhower button.add-btn {height:34px;box-shadow:none;padding:0;}
+.native-eisenhower input.task-cb {appearance:none;-webkit-appearance:none;background:transparent;position:relative;padding:0;box-shadow:none;margin:1px 0 0;}
+.native-eisenhower input.task-cb:checked {background:var(--ink);border-color:var(--ink);}
+.native-eisenhower input.task-cb:checked::after {content:'✓';color:var(--em-check);font:900 11px Arial;position:absolute;inset:0;display:flex;align-items:center;justify-content:center;}
+.native-eisenhower input.task-cb::before {display:none;}
+.native-eisenhower button.task-del {background:transparent;box-shadow:none;border:0;height:auto;line-height:1.4;font-family:var(--font);color:var(--em-delete);opacity:1;}
+.native-eisenhower .task-item:focus-within .task-del {opacity:1;}
+.native-eisenhower .matrix-tip {font:600 .73rem var(--font);color:#666;text-align:center;margin:18px 0 0;}
+.native-eisenhower button:disabled {opacity:.45;cursor:wait;}
+@container (max-width:520px) {
+ .native-eisenhower .axis-y {width:34px;}
+ .native-eisenhower .axis-x {padding-left:34px;}
+ .native-eisenhower .axis-x span,.native-eisenhower .axis-y span {font-size:.7rem;letter-spacing:.5px;}
+ .native-eisenhower .quadrant {padding:12px;min-height:280px;}
+ .native-eisenhower .q-title {font-size:1.1rem;}
+ .native-eisenhower .add-row {gap:4px;}
+ .native-eisenhower .add-input {padding:6px;font-size:.72rem;}
+}
+
+/* Task fields follow the active Obsidian theme in every input state. */
+.native-eisenhower .add-row {
+ display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr) 34px;
+ gap:8px;align-items:end;
+}
+.native-eisenhower .em-field {display:flex;flex-direction:column;gap:4px;min-width:0;}
+.native-eisenhower .em-name-field {grid-column:1 / -1;}
+.native-eisenhower .em-field-label {font:700 .7rem var(--font);color:var(--em-muted);}
+.native-eisenhower input.add-input,
+.native-eisenhower input.add-input:hover,
+.native-eisenhower input.add-input:focus,
+.native-eisenhower input.add-input:focus-visible,
+.native-eisenhower input.add-input:active {
+ width:100%;min-width:0;max-width:100%;height:var(--em-input-height,36px);
+ min-height:var(--em-input-height,36px);max-height:var(--em-input-height,36px);flex:0 0 auto;
+ background:var(--em-field) !important;
+ background-color:var(--em-field) !important;
+ color:var(--ink) !important;-webkit-text-fill-color:var(--ink) !important;
+ caret-color:var(--ink) !important;color-scheme:var(--em-scheme);
+ border:1px solid var(--em-border) !important;border-radius:8px;
+ box-shadow:none !important;outline:none;padding:var(--em-input-padding,7px 8px);font:600 var(--em-input-font,.78rem) var(--font);
+ transform:none !important;transition:none !important;
+}
+.native-eisenhower input.add-input:focus,
+.native-eisenhower input.add-input:focus-visible {
+ background:var(--em-field-hover) !important;background-color:var(--em-field-hover) !important;
+ border-color:var(--em-focus) !important;
+ box-shadow:none !important;
+}
+.native-eisenhower input.add-input::placeholder {
+ color:var(--em-muted) !important;-webkit-text-fill-color:var(--em-muted) !important;
+}
+.native-eisenhower input.add-input:-webkit-autofill {
+ -webkit-box-shadow:0 0 0 1000px var(--em-field-hover) inset !important;
+ -webkit-text-fill-color:var(--ink) !important;
+}
+.native-eisenhower input.em-date::-webkit-calendar-picker-indicator {
+ filter:none !important;opacity:.75;cursor:pointer;
+}
+.native-eisenhower button.add-btn {height:36px;}
+@container (max-width:420px) {
+ .native-eisenhower .add-row {grid-template-columns:minmax(0,1fr) 34px;}
+ .native-eisenhower .em-name-field {grid-column:1 / -1;}
+ .native-eisenhower .em-field:has(.em-date) {grid-column:1 / -1;}
+}
+
+/* The matrix surface follows the active dashboard background. */
+.em-board-view {
+ padding:0;background:transparent;
+}
+
+/* Both the blank bar and + open the entry dialog. */
+.native-eisenhower .em-add-launcher {
+ display:flex;align-items:center;gap:8px;margin-top:10px;
+}
+.native-eisenhower .em-add-placeholder {
+ flex:1;min-width:0;height:36px;display:block;padding:9px 12px;border-radius:8px;
+ background:var(--em-field);color:var(--em-muted);
+ font:500 .8rem var(--font);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+ border:0;box-shadow:none;cursor:pointer;user-select:none;
+}
+.native-eisenhower .em-add-placeholder:hover {background:var(--em-field-hover);}
+.native-eisenhower .em-add-placeholder:focus-visible {outline:2px solid var(--ink);outline-offset:2px;}
+.modal.em-task-modal {
+ width:420px;max-width:calc(100vw - 32px);padding:0;
+ border:0;border-radius:16px;overflow:hidden;
+}
+.modal.em-task-modal-do {background:var(--do);}
+.modal.em-task-modal-decide {background:var(--decide);}
+.modal.em-task-modal-delegate {background:var(--delegate);}
+.modal.em-task-modal-delete {background:var(--delete);}
+.em-task-modal .modal-title:empty,
+.em-task-modal .modal-header:empty {display:none;}
+.em-task-modal .modal-close-button,
+.em-task-modal .modal-close-button:hover {
+ top:6px;right:6px;color:var(--em-delete);opacity:1;z-index:2;
+}
+.native-eisenhower button.task-del:hover {color:var(--em-delete);}
+.em-task-modal .em-task-dialog {
+ --em-input-height:42px;--em-input-padding:10px 12px;--em-input-font:.9rem;
+ display:block;margin:0;padding:16px;min-height:0;width:100%;
+ max-height:calc(100dvh - 64px);overflow-y:auto;border-radius:16px;
+}
+.em-task-dialog.q-do {background:var(--do);}
+.em-task-dialog.q-decide {background:var(--decide);}
+.em-task-dialog.q-delegate {background:var(--delegate);}
+.em-task-dialog.q-delete {background:var(--delete);}
+.em-task-dialog .add-row {
+ margin-top:0;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr) 36px;
+}
+.em-task-dialog .em-field:has(.em-date) {grid-column:auto;}
+.em-task-dialog .em-name-field .em-field-label {padding-right:20px;}
+.em-task-dialog .em-form-error {font:600 .78rem var(--font);color:var(--em-error);margin-top:8px;}
+.em-task-dialog .em-form-error:empty {display:none;}
+@media (max-width:340px) {
+ .em-task-dialog .add-row {grid-template-columns:minmax(0,1fr) 36px;}
+ .em-task-dialog .em-field:has(.em-date) {grid-column:1 / -1;}
+}
+.markdown-preview-view:has(.em-board-embed),
+.markdown-source-view:has(.em-board-embed) {
+ --file-line-width:1100px;
+}
+.em-board-embed {width:100%;min-width:0;}
+.native-eisenhower .task-text {min-width:0;overflow-wrap:anywhere;}
+
+/* Stack cards according to pane width, including narrow desktop sidebars. */
+@container (max-width:600px) {
+ .native-eisenhower .matrix-grid {grid-template-columns:minmax(0,1fr);grid-auto-rows:auto;}
+ .native-eisenhower .axis-x,.native-eisenhower .axis-y {display:none;}
+ .native-eisenhower .axis-y-wrap::after {display:none;}
+ .native-eisenhower .quadrant {min-height:280px;}
+ .native-eisenhower .quadrant::before {
+  content:var(--em-priority);font:700 .7rem var(--font);
+  color:var(--em-muted);margin-bottom:10px;
+ }
+ .native-eisenhower .q-do {--em-priority:'Urgent · Important';}
+ .native-eisenhower .q-decide {--em-priority:'Not Urgent · Important';}
+ .native-eisenhower .q-delegate {--em-priority:'Urgent · Not Important';}
+ .native-eisenhower .q-delete {--em-priority:'Not Urgent · Not Important';}
+}
+
+/* Text fields keep the same geometry on hover, focus, and while typing. */
+.em-task-dialog .add-row {grid-template-columns:minmax(0,1fr);gap:16px;}
+.em-task-dialog .em-field {grid-column:1 / -1;gap:8px;}
+.em-task-dialog input.em-time {font-variant-numeric:tabular-nums;}
+.em-task-dialog .em-time-control {position:relative;display:flex;align-items:center;}
+.em-task-dialog .em-time-control input.em-time {padding-right:64px;}
+.em-task-dialog .em-time-preview,.em-task-dialog .em-time-caret {
+ display:none;position:absolute;left:13px;right:65px;top:0;height:var(--em-input-height,42px);
+ align-items:center;overflow:hidden;white-space:pre;pointer-events:none;
+ color:var(--ink);font:600 var(--em-input-font,.9rem) var(--font);font-variant-numeric:tabular-nums;
+}
+.em-task-dialog .em-time-control.is-composing input.em-time {
+ color:transparent !important;-webkit-text-fill-color:transparent !important;
+ caret-color:transparent !important;
+}
+.em-task-dialog .em-time-control.is-composing .em-time-preview {display:flex;}
+.em-task-dialog .em-time-control.is-composing input.em-time:focus ~ .em-time-caret {display:flex;}
+.em-task-dialog .em-time-caret-prefix {visibility:hidden;flex:none;}
+.em-task-dialog .em-time-caret::after {content:'';height:1em;border-left:1px solid var(--ink);flex:none;}
+.em-task-dialog .em-time-clear {
+ position:absolute;right:6px;height:32px;padding:4px 8px;border:0;border-radius:6px;
+ background:transparent;box-shadow:none;color:var(--em-muted);font:700 .75rem var(--font);cursor:pointer;
+}
+.em-task-dialog .em-time-clear:hover {background:var(--em-control);color:var(--ink);}
+.em-task-dialog .em-date-control {position:relative;display:flex;align-items:center;}
+.em-task-dialog .em-date-control input.em-date {padding-right:44px;font-variant-numeric:tabular-nums;}
+.em-task-dialog .em-date-open {
+ position:absolute;right:6px;height:32px;width:32px;padding:0;border:0;border-radius:6px;
+ background:transparent;box-shadow:none;cursor:pointer;font-size:1rem;
+}
+.em-task-dialog .em-date-open:hover {background:var(--em-control);}
+.em-task-dialog .em-save-task {
+ width:100%;height:42px;padding:10px 16px;border:1px solid var(--em-border);border-radius:10px;
+ background:var(--ink);color:var(--em-check);box-shadow:none;font:800 .85rem var(--font);cursor:pointer;
+}
+.em-task-dialog .em-save-task:hover {filter:brightness(1.12);}
+.em-task-dialog button:focus-visible {
+ outline:2px solid var(--em-focus);outline-offset:2px;
+}
+/* A centered Obsidian modal replaces the platform date popup. */
+.modal-container:has(.em-calendar-modal) {align-items:center;justify-content:center;}
+.modal.em-calendar-modal {width:340px;max-width:calc(100vw - 32px);background:var(--em-surface);}
+.native-eisenhower.em-calendar-dialog {
+ display:block;padding:28px 16px 16px;margin:0;min-height:0;max-height:calc(100dvh - 64px);
+ overflow-y:auto;background:var(--em-surface);border-radius:16px;
+}
+.em-calendar-dialog .em-calendar-header {display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:12px;}
+.em-calendar-dialog .em-calendar-heading {font:800 1rem var(--font);text-align:center;color:var(--ink);}
+.em-calendar-dialog button {
+ min-width:0;height:36px;padding:4px;border:1px solid transparent;border-radius:8px;
+ background:transparent;box-shadow:none;color:var(--ink);font:600 .82rem var(--font);cursor:pointer;
+}
+.em-calendar-dialog button:hover {background:var(--em-control);}
+.em-calendar-dialog button:focus-visible {outline:2px solid var(--em-focus);outline-offset:1px;}
+.em-calendar-dialog .em-calendar-nav {width:36px;font-size:1.4rem;}
+.em-calendar-dialog .em-calendar-week,.em-calendar-dialog .em-calendar-days {display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;}
+.em-calendar-dialog .em-calendar-week {text-align:center;font:700 .7rem var(--font);color:var(--em-muted);margin-bottom:6px;}
+.em-calendar-dialog .em-calendar-day {font-variant-numeric:tabular-nums;}
+.em-calendar-dialog .em-calendar-day[aria-current='date'] {border-color:var(--em-focus);}
+.em-calendar-dialog .em-calendar-day[aria-pressed='true'] {background:var(--ink);color:var(--em-check);}
+.em-calendar-dialog .em-calendar-footer {display:flex;justify-content:space-between;gap:12px;margin-top:12px;padding-top:8px;border-top:1px solid var(--em-border);}
+.em-calendar-dialog .em-calendar-footer button {padding:4px 12px;color:var(--em-muted);}
+@media (prefers-reduced-motion:reduce) {
+ .native-eisenhower * {animation:none !important;transition:none !important;}
+}
+
+/* Preserve visible keyboard focus outside the task dialog as well. */
+.native-eisenhower button:focus-visible,
+.native-eisenhower input.task-cb:focus-visible {
+ outline:2px solid var(--em-focus);outline-offset:2px;
+}
+
+/* Separate the cards using their background colors, without an outline. */
+.native-eisenhower .quadrant {border:0;}
+
+/* Matching neutral controls in light and dark themes. */
+.native-eisenhower .em-add-launcher button {
+ background:var(--em-add-bg);border:1px solid var(--em-add-border);color:var(--ink);
+ box-shadow:none;transition:background-color .15s,border-color .15s;
+}
+.native-eisenhower .em-add-launcher button:hover:not(:disabled) {
+ background:var(--em-add-hover);border-color:var(--em-add-border-hover);
+}
+.native-eisenhower .em-add-launcher button:focus-visible {
+ outline:2px solid var(--em-focus);outline-offset:2px;
+}

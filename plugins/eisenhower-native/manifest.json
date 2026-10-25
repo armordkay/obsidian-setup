@@ -1,0 +1,9 @@
+{
+  "id": "eisenhower-native",
+  "name": "Eisenhower Matrix",
+  "version": "1.1.0",
+  "minAppVersion": "1.5.0",
+  "description": "Native Eisenhower matrix with Markdown tasks, local storage, and deadline syntax.",
+  "author": "armordkay",
+  "isDesktopOnly": false
+}
