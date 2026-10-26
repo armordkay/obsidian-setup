@@ -154,9 +154,13 @@ Thời gian không có display font: các chữ số là path SVG với nét dà
 
 ## Layout
 
-Khung ngoài rộng (100%), tối đa (1040px), padding (24px 16px). Panel giữa rộng tối đa (640px). Header và settings là flex; điều khiển căn giữa; feedback và thông tin phiên sau có thể xuống dòng.
+Khung ngoài rộng (100%), tối đa (1040px), padding (24px 16px). Panel dùng hết chiều rộng khả dụng, tối đa (1040px). Phần thân là grid hai cột: đồng hồ và nút điều khiển bên trái, cột setup rộng (240px) bên phải; gap (32px), padding (12px 24px 24px). Cột setup có viền trái mảnh, hai trường xếp dọc theo thứ tự học rồi nghỉ; feedback nằm cùng cột, không có dòng hướng dẫn trạng thái. DOM và thứ tự focus đi từ đồng hồ, nút điều khiển, thời gian học đến thời gian nghỉ.
 
-Bố cục dựa trên container `pomodoro`, không dựa viewport. Tại chiều rộng tối đa (480px), giảm inset về (16px), vỏ và LCD thu nhỏ, giảm chiều cao SVG. Tại (300px), settings chuyển thành cột, giảm khoảng cách và bỏ min-width cố định của nút chính. Trạng thái thời gian dài giữ cùng renderer SVG với viewBox theo số chữ số.
+Bố cục dựa trên container `pomodoro`, không dựa viewport. Tại chiều rộng tối đa (760px), giữ hai cột nhưng setup thu về (164px), gap (20px), inset ngang (16px); vỏ và LCD thu nhỏ, SVG còn (108px), phù hợp pane và readable note Obsidian 600–700px. Chỉ tại (520px), setup mới chuyển xuống dưới và viền trái đổi thành viền trên; hai trường vẫn xếp dọc. Tại (480px), giảm inset về (16px). Tại (300px), giảm khoảng cách. Trạng thái thời gian dài giữ cùng renderer SVG với viewBox theo số chữ số.
+
+Note Obsidian chứa `.pm-board-embed` dùng `--file-line-width:1100px` trên `.markdown-preview-view` và `.markdown-source-view`, theo cách Eisenhower. Panel vẫn bị giới hạn bởi pane nên tự co khi sidebar mở và giãn khi đóng; không dùng chiều rộng cửa sổ để ép note tràn. Note không có block giữ nguyên chiều rộng. Marker được gỡ khi renderer unload.
+
+Khi container rộng từ 900px, riêng vỏ đồng hồ giới hạn 620px và căn giữa trong cột trái để bớt kéo ngang; khi mở sidebar và container hẹp hơn, vỏ lại co theo cột như trước.
 
 ## Elevation & Depth
 
@@ -174,7 +178,7 @@ Nút chính xanh da trời, min-width (136px), chiều cao tối thiểu (40px);
 
 ### Cards / Containers
 
-Panel có nền theo theme, viền mảnh và overflow hidden. Đồng hồ là thành phần nhận diện với vỏ nổi, thanh nhô và LCD lõm; chỉ vật thể này dùng bóng tạo hình. Header hiện tên và trạng thái bằng chữ kèm chấm màu, không chỉ dựa vào màu.
+Panel có nền theo theme, viền mảnh và overflow hidden. Đồng hồ là thành phần nhận diện với vỏ nổi, thanh nhô và LCD lõm; chỉ vật thể này dùng bóng tạo hình. Header chỉ hiện tên Pomodoro. Trạng thái phiên học được giữ trong vùng chỉ dành cho trình đọc màn hình, không hiển thị dòng trạng thái hoặc chấm màu.
 
 ### Inputs / Fields
 
@@ -201,3 +205,29 @@ Thông báo validation hoặc lưu thất bại dùng màu error, có thể xu�
 - **Don't** thay chữ số SVG bằng font seven-segment.
 - **Don't** thêm nút đổi theme riêng hoặc thanh điều khiển mockup.
 - **Don't** làm nét ẩn đậm hơn opacity 0.045 trong hệ hiện hành.
+
+## Điều chỉnh âm binaural
+
+Dưới thời gian nghỉ, thêm nhãn Âm binaural 40 Hz, output gain và thanh trượt
+0–0,10. Viền trên dùng token border hiện có, thanh dùng màu xanh da trời của nút;
+không thay bảng màu hoặc hình dáng đồng hồ. Hướng dẫn tai nghe stereo, Mono audio
+và ý nghĩa gain dùng chữ phụ 12px, line-height 1,5. Input có tên truy cập đầy đủ;
+output và giá trị đồng bộ giữa các dashboard. Thứ tự focus: điều khiển timer,
+thời gian học, thời gian nghỉ, gain.
+
+## Chuông chuyển phiên
+
+Thêm nút Chuyển phiên cạnh điều khiển đồng hồ; disabled khi sẵn sàng, cho phép
+xuống hàng ở pane hẹp. Dưới điều chỉnh binaural là checkbox Chuông chuyển phiên,
+output gain, thanh trượt 0–0,30 và nút Nghe thử. Dùng token màu, viền và chữ hiện
+có. Hướng dẫn gain vẫn phân biệt biên độ tín hiệu với âm lượng tại tai. Các view
+đồng bộ tùy chọn, không thêm trạng thái nhìn thấy ở header.
+
+## Công tắc Binaural beats — thay thế setup âm
+
+Theo cập nhật mới, bỏ hai nhóm setup âm dưới thời gian nghỉ. Thay bằng một label
+Binaural beats và input checkbox role switch phía trên thời gian học. Track
+52×30px, bo tròn; núm trắng 24px, lề 3px, trạng thái bật xanh #4bacc8 theo ảnh.
+Label bấm được, hỗ trợ Space và focus-visible dùng token accent hiện hành.
+Không thêm trạng thái hoặc nhãn phụ nhìn thấy; hướng dẫn stereo nằm ở tooltip
+và README. Giữ nguyên đồng hồ, bảng màu và bố cục đáp ứng.

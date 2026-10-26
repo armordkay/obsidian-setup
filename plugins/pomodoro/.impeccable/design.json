@@ -795,6 +795,14 @@
       {
         "name": "narrow-container",
         "value": "300px"
+      },
+      {
+        "name": "dashboard-stack",
+        "value": "520px"
+      },
+      {
+        "name": "dashboard-compact",
+        "value": "760px"
       }
     ]
   },
@@ -827,15 +835,15 @@
       "name": "Panel",
       "kind": "card",
       "refersTo": "panel",
-      "description": "Khung dashboard và embed dùng chung.",
-      "html": "<section class=\"ds-panel\"><header class=\"ds-header\"><h2>Pomodoro</h2><span class=\"ds-status\"><span class=\"ds-dot\"></span>Sẵn sàng</span></header></section>",
-      "css": ".ds-panel{width:100%;max-width:640px;border:1px solid var(--pm-border,#c4ced7);border-radius:16px;background:var(--pm-page,#f7fafc);overflow:hidden;font-family:var(--font-interface,Arial,sans-serif)}.ds-header{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:18px 24px}.ds-header h2{margin:0;color:var(--pm-title,#132b43);font-size:20px;font-weight:700;line-height:28px}.ds-status{display:flex;align-items:center;gap:7px;color:var(--pm-muted,#50657a);font-size:12px}.ds-dot{width:6px;height:6px;border-radius:50%;background:var(--pm-accent,#1670a0)}"
+      "description": "Panel tối đa 1040px. Đồng hồ bên trái; setup bên phải, học trên nghỉ dưới. Khi container <=760px, setup thu còn164px; chỉ <=520px mới xếp dọc. Phù hợp readable note và pane Obsidian 600–700px. Header chỉ hiện tên; không có dòng hướng dẫn hoặc trạng thái hiển thị. Note chứa pm-board-embed dùng file-line-width 1100px trong Reading/Live Preview, tự co theo pane khi mở sidebar; note khác giữ nguyên.",
+      "html": "<section class=\"ds-panel\"><header class=\"ds-header\"><h2>Pomodoro</h2></header></section>",
+      "css": ".ds-panel{width:100%;max-width:1040px;border:1px solid var(--pm-border,#c4ced7);border-radius:16px;background:var(--pm-page,#f7fafc);overflow:hidden;font-family:var(--font-interface,Arial,sans-serif)}.ds-header{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:18px 24px}.ds-header h2{margin:0;color:var(--pm-title,#132b43);font-size:20px;font-weight:700;line-height:28px}.ds-status{display:flex;align-items:center;gap:7px;color:var(--pm-muted,#50657a);font-size:12px}.ds-dot{width:6px;height:6px;border-radius:50%;background:var(--pm-accent,#1670a0)}"
     },
     {
       "name": "Clock and Seven-segment LCD",
       "kind": "custom",
       "refersTo": "clock-shell",
-      "description": "Vỏ chính diện; mẫu chữ số 2 dùng path SVG thật, không dùng font.",
+      "description": "Vỏ chính diện; mẫu chữ số 2 dùng path SVG thật, không dùng font. Khi container >=900px, clock max-width 620px, margin-inline auto; vùng hẹp giữ cách co theo cột.",
       "html": "<div class=\"ds-clock\"><div class=\"ds-lcd\"><p class=\"ds-phase\">Thời gian học</p><svg class=\"ds-digits\" viewBox=\"0 0 54 94\" role=\"img\" aria-label=\"2\"><path d=\"M12 2H39L44 7L39 12H13L7 7Z\"/><path d=\"M46 10L50 15V39L45 44L40 39V16Z\"/><path d=\"M45 46L50 51V75L46 81L40 75V52Z\" class=\"ds-hidden\"/><path d=\"M13 78H39L44 83L39 88H12L7 83Z\"/><path d=\"M5 46L10 52V75L4 81L0 75V51Z\"/><path d=\"M4 10L10 16V39L5 44L0 39V15Z\" class=\"ds-hidden\"/><path d=\"M12 40H39L44 45L39 50H12L6 45Z\"/></svg></div></div>",
       "css": ".ds-clock{position:relative;margin:20px 24px 0;padding:17px 17px 21px;background:var(--pm-shell,#78c49b);border:3px solid var(--pm-shell-border,#428264);border-radius:30px;box-shadow:inset 0 4px 0 var(--pm-shell-light,#a0d5b8),inset 0 -7px 0 var(--pm-shell-shade,#5bac83),0 8px 16px var(--pm-shadow,#122d3d14)}.ds-clock:before{content:\"\";position:absolute;left:18%;top:-11px;width:64%;height:10px;background:var(--pm-top,#8acba8);border:3px solid var(--pm-shell-border,#428264);border-bottom:0;border-radius:5px 5px 0 0;box-shadow:inset 0 3px 0 var(--pm-top-light,#b0ddc3)}.ds-lcd{padding:24px 18px 22px;background:var(--pm-lcd,#e3e7e4);border:3px solid var(--pm-shell-border,#428264);border-radius:16px;box-shadow:inset 0 3px 0 var(--pm-lcd-shadow,#cbd2d0)}.ds-phase{margin:0 0 24px;text-align:center;color:#303b3e;font:700 14px var(--font-interface,Arial,sans-serif)}.ds-digits{display:block;width:100%;height:138px;fill:var(--pm-lcd-ink,#171c20)}.ds-digits path{stroke:var(--pm-lcd-ink,#171c20);stroke-width:1.2;stroke-linejoin:round}.ds-hidden{opacity:.045}"
     }

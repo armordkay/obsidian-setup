@@ -9,9 +9,16 @@ body{margin:0;background:#f7fafc;font:14px/1.5 Arial,sans-serif;color:#24364b}
 body.theme-dark{background:#1c1e1f;color:#dce3e9}
 .smoke-toolbar{display:flex;align-items:center;justify-content:space-between;gap:16px;max-width:1040px;margin:24px auto;padding:0 24px;font-size:13px}
 .smoke-toolbar button{font:inherit;padding:8px 12px;border-radius:8px;border:1px solid #8499a6;background:transparent;color:inherit;cursor:pointer}
-.smoke-result{max-width:640px;margin:8px auto;padding:0 16px;font-size:12px;color:#50657a}
+.smoke-result{max-width:1040px;margin:8px auto;padding:0 16px;font-size:12px;color:#50657a}
 .theme-dark .smoke-result{color:#a8b5c1}
 body.failed .smoke-result{color:#d96070}
+.mock-workspace{display:grid;grid-template-columns:minmax(0,1fr) 0;max-width:1200px;width:calc(100% - 32px);margin:auto;gap:0}
+.mock-workspace.sidebar-open{grid-template-columns:minmax(0,1fr) 320px;gap:16px}
+.mock-note{min-width:0;padding:0 16px}
+.markdown-preview-view,.markdown-source-view{--file-line-width:700px}
+.markdown-preview-sizer,.cm-sizer{width:100%;min-width:0;max-width:var(--file-line-width);margin:auto}
+.mock-sidebar{display:none;border:1px solid #8499a6;border-radius:12px;padding:16px;font-size:13px}
+.sidebar-open .mock-sidebar{display:block}
 </style>
 </head>
 <body>
@@ -30,16 +37,23 @@ class HostComponent {
  removeChild(child){child.onunload?.();for(const fn of child.cleanups)fn();this.children=this.children.filter(x=>x!==child);}
 }
 class HostPlugin extends HostComponent {
- constructor(){super();this.app={workspace:{getLeavesOfType:()=>[]}};this.saved=[];}
+ constructor(){
+  super();const handlers=new Map();
+  this.app={workspace:{leaves:[],activeLeaf:null,getLeavesOfType:()=>[],
+   iterateAllLeaves(callback){this.leaves.forEach(callback);},
+   on(name,callback){handlers.set(name,callback);return {off:()=>handlers.delete(name)};},
+   trigger(name,...args){handlers.get(name)?.(...args);}}};this.saved=[];
+ }
  async loadData(){return null;}
  async saveData(data){if(this.saveFailure)throw Error('test save failure');this.saved.push(data);}
  registerView(_type,factory){this.factory=factory;}
  registerMarkdownCodeBlockProcessor(_type,callback){this.block=callback;}
  registerInterval(id){this.register(()=>clearInterval(id));}
+ registerEvent(ref){this.register(()=>ref.off());}
  addRibbonIcon(){}
  addCommand(){}
 }
-class HostView extends HostComponent {constructor(){super();this.contentEl=document.getElementById('host');}}
+class HostView extends HostComponent {constructor(leaf){super();this.leaf=leaf;this.contentEl=document.getElementById('host');}}
 class HostRenderChild extends HostComponent {constructor(el){super();this.containerEl=el;}}
 window.module={exports:{}};
 window.require=()=>({Plugin:HostPlugin,ItemView:HostView,MarkdownRenderChild:HostRenderChild,Notice:class{}});
@@ -50,8 +64,107 @@ window.require=()=>({Plugin:HostPlugin,ItemView:HostView,MarkdownRenderChild:Hos
  const results=[];
  const check=(condition,label)=>{if(!condition)throw Error(label);results.push(label);};
  const plugin=new module.exports();await plugin.onload();
- const view=plugin.factory({});await view.onOpen();const board=view.board;
+ // Render two seconds in memory only for waveform verification. Production
+ // audio uses continuous oscillators and never creates a buffer or audio file.
+ const offline=new OfflineAudioContext(2,96000,48000);
+ const context={get currentTime(){return offline.currentTime;},state:'running',
+  destination:offline.destination,resume:()=>Promise.resolve(),close:()=>Promise.resolve(),
+  createOscillator:()=>offline.createOscillator(),createChannelMerger:n=>offline.createChannelMerger(n),createGain:()=>offline.createGain()};
+ const audio=new BinauralAudio(()=>context);await audio.start(.05,()=>2000);
+ const signal=await offline.startRendering();
+ for(const [channel,frequency] of [[0,134],[1,174]]){
+  const samples=signal.getChannelData(channel);let error=0,real=0,imaginary=0,otherReal=0,otherImaginary=0;
+  const otherFrequency=channel===0?174:134;
+  for(let i=24000;i<72000;i++){
+   error=Math.max(error,Math.abs(samples[i]-.05*Math.sin(2*Math.PI*frequency*i/48000)));
+   const phase=2*Math.PI*i/48000;real+=samples[i]*Math.cos(frequency*phase);imaginary+=samples[i]*Math.sin(frequency*phase);
+   otherReal+=samples[i]*Math.cos(otherFrequency*phase);otherImaginary+=samples[i]*Math.sin(otherFrequency*phase);
+  }
+  const amplitude=2*Math.hypot(real,imaginary)/48000,crosstalk=2*Math.hypot(otherReal,otherImaginary)/48000;
+  check(error<.0005&&Math.abs(amplitude-.05)<.0001&&crosstalk<.00001,'Native Web Audio: pure '+frequency+' Hz on channel '+channel+' (error '+error+')');
+ }
+ check(Math.abs(signal.getChannelData(0)[95999])<.0001&&Math.abs(signal.getChannelData(1)[95999])<.0001,'Native Web Audio: fades to silence at focus end');
+ // A separate, short offline render verifies the real bell graph, including
+ // overlapping tails and stereo output, without producing a sound file.
+ const bellOffline=new OfflineAudioContext(2,144000,48000);
+ const bellContext={get currentTime(){return bellOffline.currentTime;},state:'running',
+  destination:bellOffline.destination,resume:()=>Promise.resolve(),close:()=>Promise.resolve(),
+  createOscillator:()=>bellOffline.createOscillator(),createGain:()=>bellOffline.createGain()};
+ const nativeBell=new BellAudio(()=>bellContext),bellDone=nativeBell.play(.1);
+ for(let i=0;i<5;i++)await Promise.resolve();
+ check(nativeBell.voice?.partials.length===9,'Native bell: nine sine oscillators');
+ const bellSignal=await bellOffline.startRendering();await bellDone;
+ const bellLeft=bellSignal.getChannelData(0),bellRight=bellSignal.getChannelData(1);let squaredError=0,peak=0;
+ for(let i=0;i<129600;i++){
+  const time=i/48000;let expected=0;
+  for(const start of [0,.6,1.2])for(const [frequency,amplitude,decay] of [[880,.6,.3],[1760,.25,.2],[2464,.1,.12]]){
+   const t=time-start;if(t<0||t>=1.5)continue;
+   const envelope=t<.008?amplitude*t/.008:t<1.4?amplitude*Math.exp(-(t-.008)/decay):amplitude*Math.exp(-(1.4-.008)/decay)*(1.5-t)/.1;
+   expected+=.1*envelope*Math.sin(2*Math.PI*frequency*t);
+  }
+  squaredError+=(bellLeft[i]-expected)**2;peak=Math.max(peak,Math.abs(bellLeft[i]));
+ }
+ check(Math.sqrt(squaredError/129600)<.001&&peak>.05,'Native bell: matches three overlapping exponential strikes');
+ check(bellLeft.every((value,i)=>value===bellRight[i]),'Native bell: audible on both stereo channels');
+ check(bellLeft.slice(130560).every(value=>Math.abs(value)<1e-8),'Native bell: silent after 2.72 seconds');
+ // Cancel while two future strikes have not started. The real engine must
+ // deliver onended and silence them too, so replacing a sequence cannot hang.
+ const cancelOffline=new OfflineAudioContext(2,24000,48000);let cancelTime=0;
+ const cancelContext={get currentTime(){return cancelTime;},state:'running',destination:cancelOffline.destination,
+  resume:()=>Promise.resolve(),close:()=>Promise.resolve(),createOscillator:()=>cancelOffline.createOscillator(),createGain:()=>cancelOffline.createGain()};
+ const cancelBell=new BellAudio(()=>cancelContext),canceledPlay=cancelBell.play(.1);
+ for(let i=0;i<5;i++)await Promise.resolve();
+ cancelTime=.1;const canceledStop=cancelBell.stop();
+ const canceledSignal=await cancelOffline.startRendering();await canceledStop;
+ check(await canceledPlay===false,'Native bell: cancellation ends all nine oscillators, including future strikes');
+ check(canceledSignal.getChannelData(0).slice(7200).every(value=>Math.abs(value)<1e-8),'Native bell: cancellation is silent after the short fade');
+ // Explicit binaural Off must end its sources and release the graph/context,
+ // not merely leave silent oscillators running.
+ const stopOffline=new OfflineAudioContext(2,24000,48000);let stopTime=0,closedBinaural=0;
+ const stopContext={get currentTime(){return stopTime;},state:'running',destination:stopOffline.destination,
+  resume:()=>Promise.resolve(),close:()=>{closedBinaural++;return Promise.resolve();},
+  createOscillator:()=>stopOffline.createOscillator(),createChannelMerger:n=>stopOffline.createChannelMerger(n),createGain:()=>stopOffline.createGain()};
+ const stoppable=new BinauralAudio(()=>stopContext);await stoppable.start(.2,()=>1000);stopTime=.1;
+ const stoppedAudio=stoppable.stop();const stoppedSignal=await stopOffline.startRendering();await stoppedAudio;
+ check(stoppable.voice===null&&stoppable.context===null&&closedBinaural===1,'Native binaural Off: oscillators end and context closes');
+ check(stoppedSignal.getChannelData(0).slice(14880).every(value=>Math.abs(value)<1e-8)&&stoppedSignal.getChannelData(1).slice(14880).every(value=>Math.abs(value)<1e-8),'Native binaural Off: both channels silent after fade');
+ const quitting=new module.exports();await quitting.onload();let quitNow=100000;quitting.timer.now=()=>quitNow;
+ quitting.timer.start();quitNow+=1234;const quitTasks=[];
+ quitting.app.workspace.trigger('quit',{add(callback){quitTasks.push(callback());}});
+ check(quitting.timer.getState().status==='paused','Quit hook pauses the timer synchronously');
+ await Promise.all(quitTasks);
+ check(quitting.saved.at(-1).timer.status==='paused'&&quitting.saved.at(-1).timer.remainingMs===1498766,'Quit tasks wait for paused progress to be saved');
+ const reopened=new module.exports();reopened.loadData=async()=>quitting.saved.at(-1);await reopened.onload();
+ check(reopened.timer.getState().status==='paused'&&reopened.timer.getState().remainingMs===1498766,'Reopening requires Continue and preserves paused time');
+ quitting.onunload();reopened.onunload();for(const component of [quitting,reopened])for(const cleanup of component.cleanups)cleanup();
+ // UI smoke clicks are scripted, not trusted autoplay gestures. Lifecycle is
+ // covered by node tests; keep the visual host silent during those clicks.
+ plugin.audio={start:()=>Promise.resolve(),stop:()=>Promise.resolve(),setVolume(){},dispose:()=>Promise.resolve()};
+ plugin.bell={prepare:()=>Promise.resolve({}),play:()=>Promise.resolve(true),stop:()=>Promise.resolve(),setVolume(){},dispose:()=>Promise.resolve()};
+ plugin.sounds.binaural=plugin.audio;plugin.sounds.bell=plugin.bell;
+ const ownerLeaf={view:{containerEl:document.getElementById('host')}};
+ plugin.app.workspace.leaves=[ownerLeaf];plugin.app.workspace.activeLeaf=ownerLeaf;
+ let view,workspace,note;
+ if(location.hash.includes('workspace')){
+  workspace=document.createElement('div');workspace.className='mock-workspace';
+  note=document.createElement('div');note.className='mock-note '+(location.hash.includes('source')?'markdown-source-view':'markdown-preview-view');
+  const sizer=document.createElement('div');sizer.className=location.hash.includes('source')?'cm-sizer':'markdown-preview-sizer';
+  const host=document.getElementById('host');host.replaceWith(workspace);workspace.appendChild(note);note.appendChild(sizer);sizer.appendChild(host);
+  const sidebar=document.createElement('aside');sidebar.className='mock-sidebar';sidebar.textContent='Sidebar Obsidian (mô phỏng)';workspace.appendChild(sidebar);
+  const context=new HostComponent();plugin.block('',host,context);view={board:context.children[0]};
+ }else{view=plugin.factory(ownerLeaf);ownerLeaf.view=view;await view.onOpen();}
+ const board=view.board;
  const second=new HostComponent();plugin.block('',document.getElementById('second'),second);const other=second.children[0];
+ check(board.binauralInput.checked,'Binaural enabled by default');
+ check(plugin.audioGain===.2&&plugin.bellGain===.25,'Updated default audio gains');
+ check(!board.root.querySelector('.pm-audio-control'),'Old audio setup sections removed');
+ board.binauralInput.checked=false;board.binauralInput.dispatchEvent(new Event('change'));
+ check(!other.binauralInput.checked&&plugin.bellEnabled,'Binaural toggle synchronizes without disabling bell');
+ board.binauralInput.checked=true;board.binauralInput.dispatchEvent(new Event('change'));
+ board.binauralInput.parentElement.click();
+ check(!board.binauralInput.checked&&plugin.bellEnabled,'Clicking switch label disables only binaural');
+ board.binauralInput.click();check(board.binauralInput.checked,'Clicking switch re-enables binaural');
+ check(board.binauralInput.getBoundingClientRect().bottom<=board.focusInput.getBoundingClientRect().top,'Binaural switch above study duration');
  let now=Date.now();plugin.timer.now=()=>now;
  check(board.display.getAttribute('aria-label')==='25 phút 00 giây','Default 25:00');
  check(board.svg.querySelectorAll('path').length===28,'Seven segments per digit');
@@ -72,11 +185,56 @@ window.require=()=>({Plugin:HostPlugin,ItemView:HostView,MarkdownRenderChild:Hos
  plugin.saveFailure=false;board.retryButton.click();await plugin.saveQueue;check(board.retryButton.hidden,'Save retry recovery');
  second.removeChild(other);check(plugin.boards.size===1,'Unmount unsubscribes');
  plugin.timer.reset();plugin.timer.setDurations(25,5);
+ board.startButton.click();now+=1000;
+ const otherLeaf={view:{}};plugin.app.workspace.leaves.push(otherLeaf);plugin.app.workspace.activeLeaf=otherLeaf;plugin.app.workspace.trigger('layout-change');
+ check(plugin.timer.getState().status==='running','Switching tabs keeps the session running');
+ plugin.app.workspace.leaves=[otherLeaf];plugin.app.workspace.trigger('layout-change');await plugin.saveQueue;
+ check(plugin.timer.getState().status==='paused'&&plugin.saved.at(-1).timer.status==='paused','Closing the owning tab pauses and persists the session');
+ const remaining=plugin.timer.getState().remainingMs;now+=5000;plugin.timer.tick();check(plugin.timer.getState().remainingMs===remaining,'Closed tab no longer counts down');
+ plugin.app.workspace.leaves=[ownerLeaf];plugin.app.workspace.activeLeaf=ownerLeaf;
+ board.startButton.click();check(plugin.timer.getState().status==='running','Reopened tab resumes on demand');plugin.timer.reset();
  if(location.hash.includes('long'))plugin.timer.setDurations(180,180);
  if(location.hash.includes('paused')){plugin.timer.start();now+=62000;plugin.timer.pause();}
  if(location.hash.includes('error')){board.focusInput.value='181';board.focusInput.dispatchEvent(new Event('change'));}
  if(location.hash.includes('running')){plugin.timer.start();now+=22000;plugin.timer.tick();}
+ // Check actual geometry, including a narrow embed inside a wide viewport.
+ const host=document.getElementById('host');
+ if(location.hash.includes('embed')){host.style.width='360px';host.style.maxWidth='100%';host.style.margin='auto';}
+ // Obsidian's readable note width and a split workspace pane are narrower than the window.
+ if(location.hash.includes('obsidian')||location.hash.includes('pane')){
+  host.className='markdown-preview-sizer';
+  host.style.width=location.hash.includes('pane')?'600px':'700px';
+  host.style.maxWidth='100%';host.style.margin='auto';
+ }
+ const panel=board.root.querySelector('.pm-panel'),clock=board.root.querySelector('.pm-clock'),setup=board.root.querySelector('.pm-setup');
+ if(workspace){
+  check(getComputedStyle(note).getPropertyValue('--file-line-width').trim()==='1100px','Pomodoro note inherits expanded Obsidian readable width');
+  const normalWidth=panel.getBoundingClientRect().width;
+  check(normalWidth>900,'Closed sidebar allows a wide dashboard');
+  workspace.classList.add('sidebar-open');
+  const sidebarWidth=panel.getBoundingClientRect().width;
+  check(sidebarWidth<normalWidth&&sidebarWidth>600,'Opening sidebar shrinks the same dashboard');
+  check(setup.getBoundingClientRect().left>=clock.getBoundingClientRect().right,'Setup stays right when sidebar opens');
+  check(panel.scrollWidth<=panel.clientWidth,'No overflow with sidebar open');
+  workspace.classList.remove('sidebar-open');
+  check(Math.abs(panel.getBoundingClientRect().width-normalWidth)<1,'Closing sidebar restores dashboard width');
+  const plain=document.createElement('div');plain.className='markdown-preview-view';document.body.appendChild(plain);
+  check(getComputedStyle(plain).getPropertyValue('--file-line-width').trim()==='700px','Notes without Pomodoro keep their original readable width');plain.remove();
+  if(location.hash.includes('sidebar'))workspace.classList.add('sidebar-open');
+ }
+ const clockBox=clock.getBoundingClientRect(),setupBox=setup.getBoundingClientRect();
+ const available=board.root.clientWidth-32;
+ check(board.focusInput.getBoundingClientRect().bottom<=board.breakInput.getBoundingClientRect().top,'Study duration above break duration');
+ if(available>520){
+  check(setupBox.left>=clockBox.right,'Setup to the right of the clock');
+  check(panel.getBoundingClientRect().width>=available-2,'Dashboard uses available horizontal space');
+ }else{
+  check(setupBox.top>=clockBox.bottom,'Narrow containers stack setup below clock');
+ }
+ const focusOrder=[...panel.querySelectorAll('button,input')].filter(el=>!el.hidden);
+ check(focusOrder.indexOf(board.startButton)<focusOrder.indexOf(board.focusInput)&&focusOrder.indexOf(board.focusInput)<focusOrder.indexOf(board.breakInput),'DOM and focus order follow timer, study, break');
  check(document.documentElement.scrollWidth<=innerWidth,'No horizontal overflow');
+ check(panel.scrollWidth<=panel.clientWidth,'No overflow inside the Obsidian pane');
  document.getElementById('result').textContent=results.length+' kiểm tra trình duyệt: PASS. Đây là host kiểm thử, chưa phải ứng dụng Obsidian.';
  document.documentElement.dataset.smoke='pass';
  window.pomodoroSmoke={plugin,view,results};
