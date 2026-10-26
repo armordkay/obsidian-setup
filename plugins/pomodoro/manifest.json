@@ -1,0 +1,9 @@
+{
+  "id": "pomodoro",
+  "name": "Pomodoro",
+  "version": "1.0.0",
+  "minAppVersion": "1.5.0",
+  "description": "Đồng hồ học tập và nghỉ ngơi, hiển thị trong dashboard hoặc ghi chú.",
+  "author": "armordkay",
+  "isDesktopOnly": false
+}

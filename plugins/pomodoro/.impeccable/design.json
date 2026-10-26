@@ -1,0 +1,870 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-26T05:40:45.101467+00:00",
+  "title": "Design System: Pomodoro cho Obsidian",
+  "extensions": {
+    "colorMeta": {
+      "light-page": {
+        "role": "neutral",
+        "displayName": "light page",
+        "canonical": "#f7fafc",
+        "tonalRamp": [
+          "oklch(15% 0.00417 236.50)",
+          "oklch(27% 0.00417 236.50)",
+          "oklch(38% 0.00417 236.50)",
+          "oklch(50% 0.00417 236.50)",
+          "oklch(61% 0.00417 236.50)",
+          "oklch(73% 0.00417 236.50)",
+          "oklch(84% 0.00417 236.50)",
+          "oklch(95% 0.00417 236.50)"
+        ]
+      },
+      "light-surface": {
+        "role": "neutral",
+        "displayName": "light surface",
+        "canonical": "#edf1f4",
+        "tonalRamp": [
+          "oklch(15% 0.00589 239.82)",
+          "oklch(27% 0.00589 239.82)",
+          "oklch(38% 0.00589 239.82)",
+          "oklch(50% 0.00589 239.82)",
+          "oklch(61% 0.00589 239.82)",
+          "oklch(73% 0.00589 239.82)",
+          "oklch(84% 0.00589 239.82)",
+          "oklch(95% 0.00589 239.82)"
+        ]
+      },
+      "light-border": {
+        "role": "neutral",
+        "displayName": "light border",
+        "canonical": "#c4ced7",
+        "tonalRamp": [
+          "oklch(15% 0.01665 245.12)",
+          "oklch(27% 0.01665 245.12)",
+          "oklch(38% 0.01665 245.12)",
+          "oklch(50% 0.01665 245.12)",
+          "oklch(61% 0.01665 245.12)",
+          "oklch(73% 0.01665 245.12)",
+          "oklch(84% 0.01665 245.12)",
+          "oklch(95% 0.01665 245.12)"
+        ]
+      },
+      "light-ink": {
+        "role": "neutral",
+        "displayName": "light ink",
+        "canonical": "#24364b",
+        "tonalRamp": [
+          "oklch(15% 0.04431 252.90)",
+          "oklch(27% 0.04431 252.90)",
+          "oklch(38% 0.04431 252.90)",
+          "oklch(50% 0.04431 252.90)",
+          "oklch(61% 0.04431 252.90)",
+          "oklch(73% 0.04431 252.90)",
+          "oklch(84% 0.04431 252.90)",
+          "oklch(95% 0.04431 252.90)"
+        ]
+      },
+      "light-title": {
+        "role": "neutral",
+        "displayName": "light title",
+        "canonical": "#132b43",
+        "tonalRamp": [
+          "oklch(15% 0.05371 250.27)",
+          "oklch(27% 0.05371 250.27)",
+          "oklch(38% 0.05371 250.27)",
+          "oklch(50% 0.05371 250.27)",
+          "oklch(61% 0.05371 250.27)",
+          "oklch(73% 0.05371 250.27)",
+          "oklch(84% 0.05371 250.27)",
+          "oklch(95% 0.05371 250.27)"
+        ]
+      },
+      "light-muted": {
+        "role": "neutral",
+        "displayName": "light muted",
+        "canonical": "#50657a",
+        "tonalRamp": [
+          "oklch(15% 0.04219 248.69)",
+          "oklch(27% 0.04219 248.69)",
+          "oklch(38% 0.04219 248.69)",
+          "oklch(50% 0.04219 248.69)",
+          "oklch(61% 0.04219 248.69)",
+          "oklch(73% 0.04219 248.69)",
+          "oklch(84% 0.04219 248.69)",
+          "oklch(95% 0.04219 248.69)"
+        ]
+      },
+      "light-accent": {
+        "role": "secondary",
+        "displayName": "light accent",
+        "canonical": "#1670a0",
+        "tonalRamp": [
+          "oklch(15% 0.10896 238.83)",
+          "oklch(27% 0.10896 238.83)",
+          "oklch(38% 0.10896 238.83)",
+          "oklch(50% 0.10896 238.83)",
+          "oklch(61% 0.10896 238.83)",
+          "oklch(73% 0.10896 238.83)",
+          "oklch(84% 0.10896 238.83)",
+          "oklch(95% 0.10896 238.83)"
+        ]
+      },
+      "light-primary": {
+        "role": "secondary",
+        "displayName": "light primary",
+        "canonical": "#69bfdf",
+        "tonalRamp": [
+          "oklch(15% 0.09486 224.48)",
+          "oklch(27% 0.09486 224.48)",
+          "oklch(38% 0.09486 224.48)",
+          "oklch(50% 0.09486 224.48)",
+          "oklch(61% 0.09486 224.48)",
+          "oklch(73% 0.09486 224.48)",
+          "oklch(84% 0.09486 224.48)",
+          "oklch(95% 0.09486 224.48)"
+        ]
+      },
+      "light-primary-hover": {
+        "role": "secondary",
+        "displayName": "light primary hover",
+        "canonical": "#59b4d5",
+        "tonalRamp": [
+          "oklch(15% 0.09872 224.46)",
+          "oklch(27% 0.09872 224.46)",
+          "oklch(38% 0.09872 224.46)",
+          "oklch(50% 0.09872 224.46)",
+          "oklch(61% 0.09872 224.46)",
+          "oklch(73% 0.09872 224.46)",
+          "oklch(84% 0.09872 224.46)",
+          "oklch(95% 0.09872 224.46)"
+        ]
+      },
+      "light-primary-text": {
+        "role": "secondary",
+        "displayName": "light primary text",
+        "canonical": "#102934",
+        "tonalRamp": [
+          "oklch(15% 0.03703 229.12)",
+          "oklch(27% 0.03703 229.12)",
+          "oklch(38% 0.03703 229.12)",
+          "oklch(50% 0.03703 229.12)",
+          "oklch(61% 0.03703 229.12)",
+          "oklch(73% 0.03703 229.12)",
+          "oklch(84% 0.03703 229.12)",
+          "oklch(95% 0.03703 229.12)"
+        ]
+      },
+      "light-button": {
+        "role": "secondary",
+        "displayName": "light button",
+        "canonical": "#e8f3f8",
+        "tonalRamp": [
+          "oklch(15% 0.01350 226.56)",
+          "oklch(27% 0.01350 226.56)",
+          "oklch(38% 0.01350 226.56)",
+          "oklch(50% 0.01350 226.56)",
+          "oklch(61% 0.01350 226.56)",
+          "oklch(73% 0.01350 226.56)",
+          "oklch(84% 0.01350 226.56)",
+          "oklch(95% 0.01350 226.56)"
+        ]
+      },
+      "light-button-hover": {
+        "role": "secondary",
+        "displayName": "light button hover",
+        "canonical": "#deedf4",
+        "tonalRamp": [
+          "oklch(15% 0.01858 227.28)",
+          "oklch(27% 0.01858 227.28)",
+          "oklch(38% 0.01858 227.28)",
+          "oklch(50% 0.01858 227.28)",
+          "oklch(61% 0.01858 227.28)",
+          "oklch(73% 0.01858 227.28)",
+          "oklch(84% 0.01858 227.28)",
+          "oklch(95% 0.01858 227.28)"
+        ]
+      },
+      "light-button-border": {
+        "role": "secondary",
+        "displayName": "light button border",
+        "canonical": "#b2cedb",
+        "tonalRamp": [
+          "oklch(15% 0.03515 227.50)",
+          "oklch(27% 0.03515 227.50)",
+          "oklch(38% 0.03515 227.50)",
+          "oklch(50% 0.03515 227.50)",
+          "oklch(61% 0.03515 227.50)",
+          "oklch(73% 0.03515 227.50)",
+          "oklch(84% 0.03515 227.50)",
+          "oklch(95% 0.03515 227.50)"
+        ]
+      },
+      "light-button-text": {
+        "role": "secondary",
+        "displayName": "light button text",
+        "canonical": "#21516b",
+        "tonalRamp": [
+          "oklch(15% 0.06745 235.40)",
+          "oklch(27% 0.06745 235.40)",
+          "oklch(38% 0.06745 235.40)",
+          "oklch(50% 0.06745 235.40)",
+          "oklch(61% 0.06745 235.40)",
+          "oklch(73% 0.06745 235.40)",
+          "oklch(84% 0.06745 235.40)",
+          "oklch(95% 0.06745 235.40)"
+        ]
+      },
+      "light-shell": {
+        "role": "primary",
+        "displayName": "light shell",
+        "canonical": "#78c49b",
+        "tonalRamp": [
+          "oklch(15% 0.09675 159.36)",
+          "oklch(27% 0.09675 159.36)",
+          "oklch(38% 0.09675 159.36)",
+          "oklch(50% 0.09675 159.36)",
+          "oklch(61% 0.09675 159.36)",
+          "oklch(73% 0.09675 159.36)",
+          "oklch(84% 0.09675 159.36)",
+          "oklch(95% 0.09675 159.36)"
+        ]
+      },
+      "light-shell-border": {
+        "role": "primary",
+        "displayName": "light shell border",
+        "canonical": "#428264",
+        "tonalRamp": [
+          "oklch(15% 0.08182 161.74)",
+          "oklch(27% 0.08182 161.74)",
+          "oklch(38% 0.08182 161.74)",
+          "oklch(50% 0.08182 161.74)",
+          "oklch(61% 0.08182 161.74)",
+          "oklch(73% 0.08182 161.74)",
+          "oklch(84% 0.08182 161.74)",
+          "oklch(95% 0.08182 161.74)"
+        ]
+      },
+      "light-shell-light": {
+        "role": "primary",
+        "displayName": "light shell light",
+        "canonical": "#a0d5b8",
+        "tonalRamp": [
+          "oklch(15% 0.06839 160.51)",
+          "oklch(27% 0.06839 160.51)",
+          "oklch(38% 0.06839 160.51)",
+          "oklch(50% 0.06839 160.51)",
+          "oklch(61% 0.06839 160.51)",
+          "oklch(73% 0.06839 160.51)",
+          "oklch(84% 0.06839 160.51)",
+          "oklch(95% 0.06839 160.51)"
+        ]
+      },
+      "light-shell-shade": {
+        "role": "primary",
+        "displayName": "light shell shade",
+        "canonical": "#5bac83",
+        "tonalRamp": [
+          "oklch(15% 0.10129 159.97)",
+          "oklch(27% 0.10129 159.97)",
+          "oklch(38% 0.10129 159.97)",
+          "oklch(50% 0.10129 159.97)",
+          "oklch(61% 0.10129 159.97)",
+          "oklch(73% 0.10129 159.97)",
+          "oklch(84% 0.10129 159.97)",
+          "oklch(95% 0.10129 159.97)"
+        ]
+      },
+      "light-top": {
+        "role": "primary",
+        "displayName": "light top",
+        "canonical": "#8acba8",
+        "tonalRamp": [
+          "oklch(15% 0.08322 160.17)",
+          "oklch(27% 0.08322 160.17)",
+          "oklch(38% 0.08322 160.17)",
+          "oklch(50% 0.08322 160.17)",
+          "oklch(61% 0.08322 160.17)",
+          "oklch(73% 0.08322 160.17)",
+          "oklch(84% 0.08322 160.17)",
+          "oklch(95% 0.08322 160.17)"
+        ]
+      },
+      "light-top-light": {
+        "role": "primary",
+        "displayName": "light top light",
+        "canonical": "#b0ddc3",
+        "tonalRamp": [
+          "oklch(15% 0.05913 159.52)",
+          "oklch(27% 0.05913 159.52)",
+          "oklch(38% 0.05913 159.52)",
+          "oklch(50% 0.05913 159.52)",
+          "oklch(61% 0.05913 159.52)",
+          "oklch(73% 0.05913 159.52)",
+          "oklch(84% 0.05913 159.52)",
+          "oklch(95% 0.05913 159.52)"
+        ]
+      },
+      "light-shadow": {
+        "role": "neutral",
+        "displayName": "light shadow",
+        "canonical": "#122d3d14",
+        "tonalRamp": [
+          "oklch(15% 0.04413 237.14)",
+          "oklch(27% 0.04413 237.14)",
+          "oklch(38% 0.04413 237.14)",
+          "oklch(50% 0.04413 237.14)",
+          "oklch(61% 0.04413 237.14)",
+          "oklch(73% 0.04413 237.14)",
+          "oklch(84% 0.04413 237.14)",
+          "oklch(95% 0.04413 237.14)"
+        ]
+      },
+      "light-lcd": {
+        "role": "neutral",
+        "displayName": "light lcd",
+        "canonical": "#e3e7e4",
+        "tonalRamp": [
+          "oklch(15% 0.00586 153.77)",
+          "oklch(27% 0.00586 153.77)",
+          "oklch(38% 0.00586 153.77)",
+          "oklch(50% 0.00586 153.77)",
+          "oklch(61% 0.00586 153.77)",
+          "oklch(73% 0.00586 153.77)",
+          "oklch(84% 0.00586 153.77)",
+          "oklch(95% 0.00586 153.77)"
+        ]
+      },
+      "light-lcd-shadow": {
+        "role": "neutral",
+        "displayName": "light lcd shadow",
+        "canonical": "#cbd2d0",
+        "tonalRamp": [
+          "oklch(15% 0.00810 177.29)",
+          "oklch(27% 0.00810 177.29)",
+          "oklch(38% 0.00810 177.29)",
+          "oklch(50% 0.00810 177.29)",
+          "oklch(61% 0.00810 177.29)",
+          "oklch(73% 0.00810 177.29)",
+          "oklch(84% 0.00810 177.29)",
+          "oklch(95% 0.00810 177.29)"
+        ]
+      },
+      "light-lcd-ink": {
+        "role": "neutral",
+        "displayName": "light lcd ink",
+        "canonical": "#171c20",
+        "tonalRamp": [
+          "oklch(15% 0.01083 242.23)",
+          "oklch(27% 0.01083 242.23)",
+          "oklch(38% 0.01083 242.23)",
+          "oklch(50% 0.01083 242.23)",
+          "oklch(61% 0.01083 242.23)",
+          "oklch(73% 0.01083 242.23)",
+          "oklch(84% 0.01083 242.23)",
+          "oklch(95% 0.01083 242.23)"
+        ]
+      },
+      "light-error": {
+        "role": "neutral",
+        "displayName": "light error",
+        "canonical": "#922e36",
+        "tonalRamp": [
+          "oklch(15% 0.13408 19.80)",
+          "oklch(27% 0.13408 19.80)",
+          "oklch(38% 0.13408 19.80)",
+          "oklch(50% 0.13408 19.80)",
+          "oklch(61% 0.13408 19.80)",
+          "oklch(73% 0.13408 19.80)",
+          "oklch(84% 0.13408 19.80)",
+          "oklch(95% 0.13408 19.80)"
+        ]
+      },
+      "dark-page": {
+        "role": "neutral",
+        "displayName": "dark page",
+        "canonical": "#1c1e1f",
+        "tonalRamp": [
+          "oklch(15% 0.00358 228.96)",
+          "oklch(27% 0.00358 228.96)",
+          "oklch(38% 0.00358 228.96)",
+          "oklch(50% 0.00358 228.96)",
+          "oklch(61% 0.00358 228.96)",
+          "oklch(73% 0.00358 228.96)",
+          "oklch(84% 0.00358 228.96)",
+          "oklch(95% 0.00358 228.96)"
+        ]
+      },
+      "dark-surface": {
+        "role": "neutral",
+        "displayName": "dark surface",
+        "canonical": "#293136",
+        "tonalRamp": [
+          "oklch(15% 0.01425 235.38)",
+          "oklch(27% 0.01425 235.38)",
+          "oklch(38% 0.01425 235.38)",
+          "oklch(50% 0.01425 235.38)",
+          "oklch(61% 0.01425 235.38)",
+          "oklch(73% 0.01425 235.38)",
+          "oklch(84% 0.01425 235.38)",
+          "oklch(95% 0.01425 235.38)"
+        ]
+      },
+      "dark-border": {
+        "role": "neutral",
+        "displayName": "dark border",
+        "canonical": "#3b454e",
+        "tonalRamp": [
+          "oklch(15% 0.02018 245.52)",
+          "oklch(27% 0.02018 245.52)",
+          "oklch(38% 0.02018 245.52)",
+          "oklch(50% 0.02018 245.52)",
+          "oklch(61% 0.02018 245.52)",
+          "oklch(73% 0.02018 245.52)",
+          "oklch(84% 0.02018 245.52)",
+          "oklch(95% 0.02018 245.52)"
+        ]
+      },
+      "dark-ink": {
+        "role": "neutral",
+        "displayName": "dark ink",
+        "canonical": "#dce3e9",
+        "tonalRamp": [
+          "oklch(15% 0.01114 243.66)",
+          "oklch(27% 0.01114 243.66)",
+          "oklch(38% 0.01114 243.66)",
+          "oklch(50% 0.01114 243.66)",
+          "oklch(61% 0.01114 243.66)",
+          "oklch(73% 0.01114 243.66)",
+          "oklch(84% 0.01114 243.66)",
+          "oklch(95% 0.01114 243.66)"
+        ]
+      },
+      "dark-title": {
+        "role": "neutral",
+        "displayName": "dark title",
+        "canonical": "#f1f5f7",
+        "tonalRamp": [
+          "oklch(15% 0.00505 228.82)",
+          "oklch(27% 0.00505 228.82)",
+          "oklch(38% 0.00505 228.82)",
+          "oklch(50% 0.00505 228.82)",
+          "oklch(61% 0.00505 228.82)",
+          "oklch(73% 0.00505 228.82)",
+          "oklch(84% 0.00505 228.82)",
+          "oklch(95% 0.00505 228.82)"
+        ]
+      },
+      "dark-muted": {
+        "role": "neutral",
+        "displayName": "dark muted",
+        "canonical": "#a8b5c1",
+        "tonalRamp": [
+          "oklch(15% 0.02249 245.93)",
+          "oklch(27% 0.02249 245.93)",
+          "oklch(38% 0.02249 245.93)",
+          "oklch(50% 0.02249 245.93)",
+          "oklch(61% 0.02249 245.93)",
+          "oklch(73% 0.02249 245.93)",
+          "oklch(84% 0.02249 245.93)",
+          "oklch(95% 0.02249 245.93)"
+        ]
+      },
+      "dark-accent": {
+        "role": "secondary",
+        "displayName": "dark accent",
+        "canonical": "#79d2f4",
+        "tonalRamp": [
+          "oklch(15% 0.09793 224.87)",
+          "oklch(27% 0.09793 224.87)",
+          "oklch(38% 0.09793 224.87)",
+          "oklch(50% 0.09793 224.87)",
+          "oklch(61% 0.09793 224.87)",
+          "oklch(73% 0.09793 224.87)",
+          "oklch(84% 0.09793 224.87)",
+          "oklch(95% 0.09793 224.87)"
+        ]
+      },
+      "dark-primary": {
+        "role": "secondary",
+        "displayName": "dark primary",
+        "canonical": "#66b9d8",
+        "tonalRamp": [
+          "oklch(15% 0.09227 224.54)",
+          "oklch(27% 0.09227 224.54)",
+          "oklch(38% 0.09227 224.54)",
+          "oklch(50% 0.09227 224.54)",
+          "oklch(61% 0.09227 224.54)",
+          "oklch(73% 0.09227 224.54)",
+          "oklch(84% 0.09227 224.54)",
+          "oklch(95% 0.09227 224.54)"
+        ]
+      },
+      "dark-primary-hover": {
+        "role": "secondary",
+        "displayName": "dark primary hover",
+        "canonical": "#76c3df",
+        "tonalRamp": [
+          "oklch(15% 0.08590 223.40)",
+          "oklch(27% 0.08590 223.40)",
+          "oklch(38% 0.08590 223.40)",
+          "oklch(50% 0.08590 223.40)",
+          "oklch(61% 0.08590 223.40)",
+          "oklch(73% 0.08590 223.40)",
+          "oklch(84% 0.08590 223.40)",
+          "oklch(95% 0.08590 223.40)"
+        ]
+      },
+      "dark-button": {
+        "role": "secondary",
+        "displayName": "dark button",
+        "canonical": "#293f49",
+        "tonalRamp": [
+          "oklch(15% 0.03261 228.10)",
+          "oklch(27% 0.03261 228.10)",
+          "oklch(38% 0.03261 228.10)",
+          "oklch(50% 0.03261 228.10)",
+          "oklch(61% 0.03261 228.10)",
+          "oklch(73% 0.03261 228.10)",
+          "oklch(84% 0.03261 228.10)",
+          "oklch(95% 0.03261 228.10)"
+        ]
+      },
+      "dark-button-hover": {
+        "role": "secondary",
+        "displayName": "dark button hover",
+        "canonical": "#304a56",
+        "tonalRamp": [
+          "oklch(15% 0.03758 228.58)",
+          "oklch(27% 0.03758 228.58)",
+          "oklch(38% 0.03758 228.58)",
+          "oklch(50% 0.03758 228.58)",
+          "oklch(61% 0.03758 228.58)",
+          "oklch(73% 0.03758 228.58)",
+          "oklch(84% 0.03758 228.58)",
+          "oklch(95% 0.03758 228.58)"
+        ]
+      },
+      "dark-button-border": {
+        "role": "secondary",
+        "displayName": "dark button border",
+        "canonical": "#4a6876",
+        "tonalRamp": [
+          "oklch(15% 0.04150 228.51)",
+          "oklch(27% 0.04150 228.51)",
+          "oklch(38% 0.04150 228.51)",
+          "oklch(50% 0.04150 228.51)",
+          "oklch(61% 0.04150 228.51)",
+          "oklch(73% 0.04150 228.51)",
+          "oklch(84% 0.04150 228.51)",
+          "oklch(95% 0.04150 228.51)"
+        ]
+      },
+      "dark-button-text": {
+        "role": "secondary",
+        "displayName": "dark button text",
+        "canonical": "#cee6f0",
+        "tonalRamp": [
+          "oklch(15% 0.02889 224.72)",
+          "oklch(27% 0.02889 224.72)",
+          "oklch(38% 0.02889 224.72)",
+          "oklch(50% 0.02889 224.72)",
+          "oklch(61% 0.02889 224.72)",
+          "oklch(73% 0.02889 224.72)",
+          "oklch(84% 0.02889 224.72)",
+          "oklch(95% 0.02889 224.72)"
+        ]
+      },
+      "dark-shell": {
+        "role": "primary",
+        "displayName": "dark shell",
+        "canonical": "#65a984",
+        "tonalRamp": [
+          "oklch(15% 0.08907 159.02)",
+          "oklch(27% 0.08907 159.02)",
+          "oklch(38% 0.08907 159.02)",
+          "oklch(50% 0.08907 159.02)",
+          "oklch(61% 0.08907 159.02)",
+          "oklch(73% 0.08907 159.02)",
+          "oklch(84% 0.08907 159.02)",
+          "oklch(95% 0.08907 159.02)"
+        ]
+      },
+      "dark-shell-border": {
+        "role": "primary",
+        "displayName": "dark shell border",
+        "canonical": "#3f7058",
+        "tonalRamp": [
+          "oklch(15% 0.06633 161.43)",
+          "oklch(27% 0.06633 161.43)",
+          "oklch(38% 0.06633 161.43)",
+          "oklch(50% 0.06633 161.43)",
+          "oklch(61% 0.06633 161.43)",
+          "oklch(73% 0.06633 161.43)",
+          "oklch(84% 0.06633 161.43)",
+          "oklch(95% 0.06633 161.43)"
+        ]
+      },
+      "dark-shell-light": {
+        "role": "primary",
+        "displayName": "dark shell light",
+        "canonical": "#86bc9e",
+        "tonalRamp": [
+          "oklch(15% 0.07134 159.74)",
+          "oklch(27% 0.07134 159.74)",
+          "oklch(38% 0.07134 159.74)",
+          "oklch(50% 0.07134 159.74)",
+          "oklch(61% 0.07134 159.74)",
+          "oklch(73% 0.07134 159.74)",
+          "oklch(84% 0.07134 159.74)",
+          "oklch(95% 0.07134 159.74)"
+        ]
+      },
+      "dark-shell-shade": {
+        "role": "primary",
+        "displayName": "dark shell shade",
+        "canonical": "#508767",
+        "tonalRamp": [
+          "oklch(15% 0.07709 157.35)",
+          "oklch(27% 0.07709 157.35)",
+          "oklch(38% 0.07709 157.35)",
+          "oklch(50% 0.07709 157.35)",
+          "oklch(61% 0.07709 157.35)",
+          "oklch(73% 0.07709 157.35)",
+          "oklch(84% 0.07709 157.35)",
+          "oklch(95% 0.07709 157.35)"
+        ]
+      },
+      "dark-top": {
+        "role": "primary",
+        "displayName": "dark top",
+        "canonical": "#77b494",
+        "tonalRamp": [
+          "oklch(15% 0.07891 160.66)",
+          "oklch(27% 0.07891 160.66)",
+          "oklch(38% 0.07891 160.66)",
+          "oklch(50% 0.07891 160.66)",
+          "oklch(61% 0.07891 160.66)",
+          "oklch(73% 0.07891 160.66)",
+          "oklch(84% 0.07891 160.66)",
+          "oklch(95% 0.07891 160.66)"
+        ]
+      },
+      "dark-top-light": {
+        "role": "primary",
+        "displayName": "dark top light",
+        "canonical": "#96c8ad",
+        "tonalRamp": [
+          "oklch(15% 0.06498 160.85)",
+          "oklch(27% 0.06498 160.85)",
+          "oklch(38% 0.06498 160.85)",
+          "oklch(50% 0.06498 160.85)",
+          "oklch(61% 0.06498 160.85)",
+          "oklch(73% 0.06498 160.85)",
+          "oklch(84% 0.06498 160.85)",
+          "oklch(95% 0.06498 160.85)"
+        ]
+      },
+      "dark-shadow": {
+        "role": "neutral",
+        "displayName": "dark shadow",
+        "canonical": "#00000028",
+        "tonalRamp": [
+          "oklch(15% 0.00000 0.00)",
+          "oklch(27% 0.00000 0.00)",
+          "oklch(38% 0.00000 0.00)",
+          "oklch(50% 0.00000 0.00)",
+          "oklch(61% 0.00000 0.00)",
+          "oklch(73% 0.00000 0.00)",
+          "oklch(84% 0.00000 0.00)",
+          "oklch(95% 0.00000 0.00)"
+        ]
+      },
+      "dark-lcd": {
+        "role": "neutral",
+        "displayName": "dark lcd",
+        "canonical": "#b1bbb6",
+        "tonalRamp": [
+          "oklch(15% 0.01310 164.70)",
+          "oklch(27% 0.01310 164.70)",
+          "oklch(38% 0.01310 164.70)",
+          "oklch(50% 0.01310 164.70)",
+          "oklch(61% 0.01310 164.70)",
+          "oklch(73% 0.01310 164.70)",
+          "oklch(84% 0.01310 164.70)",
+          "oklch(95% 0.01310 164.70)"
+        ]
+      },
+      "dark-lcd-shadow": {
+        "role": "neutral",
+        "displayName": "dark lcd shadow",
+        "canonical": "#98a59e",
+        "tonalRamp": [
+          "oklch(15% 0.01780 162.55)",
+          "oklch(27% 0.01780 162.55)",
+          "oklch(38% 0.01780 162.55)",
+          "oklch(50% 0.01780 162.55)",
+          "oklch(61% 0.01780 162.55)",
+          "oklch(73% 0.01780 162.55)",
+          "oklch(84% 0.01780 162.55)",
+          "oklch(95% 0.01780 162.55)"
+        ]
+      },
+      "dark-error": {
+        "role": "neutral",
+        "displayName": "dark error",
+        "canonical": "#f1a8b1",
+        "tonalRamp": [
+          "oklch(15% 0.08679 11.06)",
+          "oklch(27% 0.08679 11.06)",
+          "oklch(38% 0.08679 11.06)",
+          "oklch(50% 0.08679 11.06)",
+          "oklch(61% 0.08679 11.06)",
+          "oklch(73% 0.08679 11.06)",
+          "oklch(84% 0.08679 11.06)",
+          "oklch(95% 0.08679 11.06)"
+        ]
+      },
+      "phase-ink": {
+        "role": "neutral",
+        "displayName": "phase ink",
+        "canonical": "#303b3e",
+        "tonalRamp": [
+          "oklch(15% 0.01552 216.07)",
+          "oklch(27% 0.01552 216.07)",
+          "oklch(38% 0.01552 216.07)",
+          "oklch(50% 0.01552 216.07)",
+          "oklch(61% 0.01552 216.07)",
+          "oklch(73% 0.01552 216.07)",
+          "oklch(84% 0.01552 216.07)",
+          "oklch(95% 0.01552 216.07)"
+        ]
+      },
+      "next-ink": {
+        "role": "neutral",
+        "displayName": "next ink",
+        "canonical": "#424b4e",
+        "tonalRamp": [
+          "oklch(15% 0.01270 219.79)",
+          "oklch(27% 0.01270 219.79)",
+          "oklch(38% 0.01270 219.79)",
+          "oklch(50% 0.01270 219.79)",
+          "oklch(61% 0.01270 219.79)",
+          "oklch(73% 0.01270 219.79)",
+          "oklch(84% 0.01270 219.79)",
+          "oklch(95% 0.01270 219.79)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "title": {
+        "displayName": "Tiêu đề",
+        "purpose": "Tên dashboard."
+      },
+      "body": {
+        "displayName": "Nội dung",
+        "purpose": "Văn bản giao diện, không phải chữ số SVG."
+      },
+      "label": {
+        "displayName": "Nhãn",
+        "purpose": "Nút và nhãn trường thời lượng."
+      }
+    },
+    "shadows": [
+      {
+        "name": "clock-shell",
+        "value": "inset 0 4px 0 var(--pm-shell-light),inset 0 -7px 0 var(--pm-shell-shade),0 8px 16px var(--pm-shadow)",
+        "purpose": "Highlight và độ nổi của vỏ."
+      },
+      {
+        "name": "clock-top",
+        "value": "inset 0 3px 0 var(--pm-top-light)",
+        "purpose": "Thanh nhô phía trên vỏ."
+      },
+      {
+        "name": "lcd",
+        "value": "inset 0 3px 0 var(--pm-lcd-shadow)",
+        "purpose": "Mặt LCD lõm."
+      }
+    ],
+    "motion": [],
+    "breakpoints": [
+      {
+        "name": "compact-container",
+        "value": "480px"
+      },
+      {
+        "name": "narrow-container",
+        "value": "300px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Điều khiển phiên học.",
+      "html": "<button type=\"button\" class=\"ds-button-primary\">Bắt đầu</button>",
+      "css": ".ds-button-primary{font-family:var(--font-interface,Arial,sans-serif);font-size:13px;font-weight:700;line-height:1.5;min-height:40px;padding:9px 16px;border-radius:8px;cursor:pointer;white-space:normal;box-shadow:none;background:var(--pm-primary,#69bfdf);color:var(--pm-primary-text,#102934);border:1px solid var(--pm-primary,#69bfdf);min-width:136px;}.ds-button-primary:hover{background:var(--pm-primary-hover,#59b4d5);border-color:var(--pm-primary-hover,#59b4d5);}.ds-button-primary:focus-visible{outline:2px solid var(--pm-accent,#1670a0);outline-offset:3px;}"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Đặt lại hoặc thử lưu lại.",
+      "html": "<button type=\"button\" class=\"ds-button-secondary\">Đặt lại</button>",
+      "css": ".ds-button-secondary{font-family:var(--font-interface,Arial,sans-serif);font-size:13px;font-weight:700;line-height:1.5;min-height:40px;padding:9px 16px;border-radius:8px;cursor:pointer;white-space:normal;box-shadow:none;background:var(--pm-button,#e8f3f8);color:var(--pm-button-text,#21516b);border:1px solid var(--pm-button-border,#b2cedb);}.ds-button-secondary:hover{background:var(--pm-button-hover,#deedf4);border-color:var(--pm-accent,#1670a0);}.ds-button-secondary:focus-visible{outline:2px solid var(--pm-accent,#1670a0);outline-offset:3px;}"
+    },
+    {
+      "name": "Duration Field",
+      "kind": "input",
+      "refersTo": "input-wrap",
+      "description": "Thời lượng nguyên 1–180 phút; chỉnh khi sẵn sàng.",
+      "html": "<label class=\"ds-field\">Thời gian học<span class=\"ds-input-wrap\"><input type=\"number\" min=\"1\" max=\"180\" step=\"1\" value=\"25\" aria-label=\"Thời gian học (1 đến 180 phút)\"><span>phút</span></span></label>",
+      "css": ".ds-field{display:block;color:var(--pm-ink,#24364b);font-family:var(--font-interface,Arial,sans-serif);font-size:13px;font-weight:700;line-height:1.5;}.ds-input-wrap{display:flex;align-items:center;gap:10px;margin-top:8px;padding:8px 12px;background:var(--pm-surface,#edf1f4);border:1px solid var(--pm-border,#c4ced7);border-radius:8px}.ds-input-wrap input{width:100%;min-width:0;padding:2px;background:transparent;border:0;border-radius:2px;color:var(--pm-title,#132b43);font-family:var(--font-interface,Arial,sans-serif);font-size:18px;line-height:1.5;font-variant-numeric:tabular-nums;box-shadow:none}.ds-input-wrap>span{color:var(--pm-muted,#50657a);font-size:12px;font-weight:400}.ds-input-wrap input:focus-visible{outline:2px solid var(--pm-accent,#1670a0);outline-offset:3px}.ds-input-wrap input[aria-invalid=\"true\"]{outline:2px solid var(--pm-error,#922e36);outline-offset:3px}.ds-input-wrap input:disabled{opacity:.65;cursor:not-allowed}"
+    },
+    {
+      "name": "Panel",
+      "kind": "card",
+      "refersTo": "panel",
+      "description": "Khung dashboard và embed dùng chung.",
+      "html": "<section class=\"ds-panel\"><header class=\"ds-header\"><h2>Pomodoro</h2><span class=\"ds-status\"><span class=\"ds-dot\"></span>Sẵn sàng</span></header></section>",
+      "css": ".ds-panel{width:100%;max-width:640px;border:1px solid var(--pm-border,#c4ced7);border-radius:16px;background:var(--pm-page,#f7fafc);overflow:hidden;font-family:var(--font-interface,Arial,sans-serif)}.ds-header{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:18px 24px}.ds-header h2{margin:0;color:var(--pm-title,#132b43);font-size:20px;font-weight:700;line-height:28px}.ds-status{display:flex;align-items:center;gap:7px;color:var(--pm-muted,#50657a);font-size:12px}.ds-dot{width:6px;height:6px;border-radius:50%;background:var(--pm-accent,#1670a0)}"
+    },
+    {
+      "name": "Clock and Seven-segment LCD",
+      "kind": "custom",
+      "refersTo": "clock-shell",
+      "description": "Vỏ chính diện; mẫu chữ số 2 dùng path SVG thật, không dùng font.",
+      "html": "<div class=\"ds-clock\"><div class=\"ds-lcd\"><p class=\"ds-phase\">Thời gian học</p><svg class=\"ds-digits\" viewBox=\"0 0 54 94\" role=\"img\" aria-label=\"2\"><path d=\"M12 2H39L44 7L39 12H13L7 7Z\"/><path d=\"M46 10L50 15V39L45 44L40 39V16Z\"/><path d=\"M45 46L50 51V75L46 81L40 75V52Z\" class=\"ds-hidden\"/><path d=\"M13 78H39L44 83L39 88H12L7 83Z\"/><path d=\"M5 46L10 52V75L4 81L0 75V51Z\"/><path d=\"M4 10L10 16V39L5 44L0 39V15Z\" class=\"ds-hidden\"/><path d=\"M12 40H39L44 45L39 50H12L6 45Z\"/></svg></div></div>",
+      "css": ".ds-clock{position:relative;margin:20px 24px 0;padding:17px 17px 21px;background:var(--pm-shell,#78c49b);border:3px solid var(--pm-shell-border,#428264);border-radius:30px;box-shadow:inset 0 4px 0 var(--pm-shell-light,#a0d5b8),inset 0 -7px 0 var(--pm-shell-shade,#5bac83),0 8px 16px var(--pm-shadow,#122d3d14)}.ds-clock:before{content:\"\";position:absolute;left:18%;top:-11px;width:64%;height:10px;background:var(--pm-top,#8acba8);border:3px solid var(--pm-shell-border,#428264);border-bottom:0;border-radius:5px 5px 0 0;box-shadow:inset 0 3px 0 var(--pm-top-light,#b0ddc3)}.ds-lcd{padding:24px 18px 22px;background:var(--pm-lcd,#e3e7e4);border:3px solid var(--pm-shell-border,#428264);border-radius:16px;box-shadow:inset 0 3px 0 var(--pm-lcd-shadow,#cbd2d0)}.ds-phase{margin:0 0 24px;text-align:center;color:#303b3e;font:700 14px var(--font-interface,Arial,sans-serif)}.ds-digits{display:block;width:100%;height:138px;fill:var(--pm-lcd-ink,#171c20)}.ds-digits path{stroke:var(--pm-lcd-ink,#171c20);stroke-width:1.2;stroke-linejoin:round}.ds-hidden{opacity:.045}"
+    }
+  ],
+  "narrative": {
+    "northStar": "Đồng hồ học tập chính diện",
+    "overview": "Thiết kế đã duyệt mô phỏng đồng hồ nhìn chính diện: vỏ xanh lục bo góc, thanh nhô phía trên, mặt LCD xám và số đen bảy đoạn nét dày góc vát. Nút xanh da trời là điểm thao tác rõ ràng.\n\nĐây là giao diện công cụ đang vận hành (Operate): trạng thái, thời gian và thao tác phiên học hiện diện trực tiếp. Tên ẩn dụ bên dưới là mô tả tài liệu cho thiết kế hiện hành, không phải một tuyên bố thương hiệu mới của người dùng. Các kích thước và token trích từ CSS là lựa chọn triển khai.",
+    "keyCharacteristics": [
+      "Góc chính diện, vỏ xanh lục và thanh nhô dài 64%.",
+      "LCD xám trong cả theme sáng và tối.",
+      "Chữ số SVG bảy đoạn, nét ẩn opacity 0.045.",
+      "Nút xanh da trời và bố cục theo chiều rộng vùng nhúng."
+    ],
+    "rules": [
+      {
+        "name": "The Gray LCD Rule",
+        "body": "Mặt LCD vẫn xám và số vẫn đen khi theme Obsidian thay đổi.",
+        "section": "colors"
+      }
+    ],
+    "dos": [
+      "Do giữ mặt LCD xám và nét số đen trong cả hai theme.",
+      "Do dùng SVG bảy đoạn cho thời gian và văn bản truy cập được cho trình đọc màn hình.",
+      "Do đáp ứng chiều rộng container để cùng thiết kế dùng được trong dashboard và note."
+    ],
+    "donts": [
+      "Don't thay chữ số SVG bằng font seven-segment.",
+      "Don't thêm nút đổi theme riêng hoặc thanh điều khiển mockup.",
+      "Don't làm nét ẩn đậm hơn opacity 0.045 trong hệ hiện hành."
+    ]
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "id": "calendar-deadlines",
+  "name": "Calendar Deadlines",
+  "description": "Calendar and a synchronized deadline timeline. Fork of Liam Cain's Calendar plugin.",
+  "version": "1.0.0",
+  "author": "armordkay",
+  "authorUrl": "https://github.com/armordkay",
+  "isDesktopOnly": false,
+  "minAppVersion": "1.0.0"
+}

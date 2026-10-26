@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pomodoro · Browser smoke</title>
+<link rel="stylesheet" href="../styles.css">
+<style>
+body{margin:0;background:#f7fafc;font:14px/1.5 Arial,sans-serif;color:#24364b}
+body.theme-dark{background:#1c1e1f;color:#dce3e9}
+.smoke-toolbar{display:flex;align-items:center;justify-content:space-between;gap:16px;max-width:1040px;margin:24px auto;padding:0 24px;font-size:13px}
+.smoke-toolbar button{font:inherit;padding:8px 12px;border-radius:8px;border:1px solid #8499a6;background:transparent;color:inherit;cursor:pointer}
+.smoke-result{max-width:640px;margin:8px auto;padding:0 16px;font-size:12px;color:#50657a}
+.theme-dark .smoke-result{color:#a8b5c1}
+body.failed .smoke-result{color:#d96070}
+</style>
+</head>
+<body>
+<div class="smoke-toolbar"><span>Pomodoro · Renderer thật · Browser smoke</span><button id="theme" type="button">Đổi theme</button></div>
+<main id="host"></main>
+<div id="second" hidden></div>
+<p class="smoke-result" id="result">Đang kiểm tra…</p>
+<script>
+document.body.classList.add(location.hash.includes('dark')?'theme-dark':'theme-light');
+document.getElementById('theme').onclick=()=>{document.body.classList.toggle('theme-dark');document.body.classList.toggle('theme-light');};
+class HostComponent {
+ constructor(){this.cleanups=[];this.children=[];}
+ register(fn){this.cleanups.push(fn);}
+ registerDomEvent(el,key,fn){el.addEventListener(key,fn);this.register(()=>el.removeEventListener(key,fn));}
+ addChild(child){this.children.push(child);child.onload?.();}
+ removeChild(child){child.onunload?.();for(const fn of child.cleanups)fn();this.children=this.children.filter(x=>x!==child);}
+}
+class HostPlugin extends HostComponent {
+ constructor(){super();this.app={workspace:{getLeavesOfType:()=>[]}};this.saved=[];}
+ async loadData(){return null;}
+ async saveData(data){if(this.saveFailure)throw Error('test save failure');this.saved.push(data);}
+ registerView(_type,factory){this.factory=factory;}
+ registerMarkdownCodeBlockProcessor(_type,callback){this.block=callback;}
+ registerInterval(id){this.register(()=>clearInterval(id));}
+ addRibbonIcon(){}
+ addCommand(){}
+}
+class HostView extends HostComponent {constructor(){super();this.contentEl=document.getElementById('host');}}
+class HostRenderChild extends HostComponent {constructor(el){super();this.containerEl=el;}}
+window.module={exports:{}};
+window.require=()=>({Plugin:HostPlugin,ItemView:HostView,MarkdownRenderChild:HostRenderChild,Notice:class{}});
+</script>
+<script src="../main.js"></script>
+<script>
+(async()=>{
+ const results=[];
+ const check=(condition,label)=>{if(!condition)throw Error(label);results.push(label);};
+ const plugin=new module.exports();await plugin.onload();
+ const view=plugin.factory({});await view.onOpen();const board=view.board;
+ const second=new HostComponent();plugin.block('',document.getElementById('second'),second);const other=second.children[0];
+ let now=Date.now();plugin.timer.now=()=>now;
+ check(board.display.getAttribute('aria-label')==='25 phút 00 giây','Default 25:00');
+ check(board.svg.querySelectorAll('path').length===28,'Seven segments per digit');
+ check(getComputedStyle(board.svg.querySelector('.pm-segment-hidden')).opacity==='0.045','Hidden segments at 4.5%');
+ board.focusInput.value='';board.focusInput.dispatchEvent(new Event('input'));board.startButton.click();
+ check(plugin.timer.getState().status==='ready'&&board.focusInput.getAttribute('aria-invalid')==='true','Invalid input blocks starting');
+ board.resetButton.click();board.focusInput.value='1';board.breakInput.value='1';board.focusInput.dispatchEvent(new Event('change'));
+ check(other.focusInput.value==='1','Settings shared across views');
+ board.startButton.click();now+=1000;plugin.timer.tick();
+ check(other.display.getAttribute('aria-label')==='0 phút 59 giây','Shared live countdown');
+ other.startButton.click();now+=1000;plugin.timer.tick();
+ check(board.startButton.textContent==='Tiếp tục'&&plugin.timer.getState().remainingMs===59000,'Pause preserves remaining time');
+ board.startButton.click();now+=59000;plugin.timer.tick();
+ check(board.phase.textContent==='Nghỉ ngơi'&&board.status.textContent==='Đang nghỉ','Automatic break');
+ now+=60000;plugin.timer.tick();check(board.startButton.textContent==='Bắt đầu','Break ends ready');
+ plugin.saveFailure=true;plugin.timer.start();await plugin.saveQueue;
+ check(!board.retryButton.hidden&&board.message.textContent.includes('Không lưu'),'Save failure visible');
+ plugin.saveFailure=false;board.retryButton.click();await plugin.saveQueue;check(board.retryButton.hidden,'Save retry recovery');
+ second.removeChild(other);check(plugin.boards.size===1,'Unmount unsubscribes');
+ plugin.timer.reset();plugin.timer.setDurations(25,5);
+ if(location.hash.includes('long'))plugin.timer.setDurations(180,180);
+ if(location.hash.includes('paused')){plugin.timer.start();now+=62000;plugin.timer.pause();}
+ if(location.hash.includes('error')){board.focusInput.value='181';board.focusInput.dispatchEvent(new Event('change'));}
+ if(location.hash.includes('running')){plugin.timer.start();now+=22000;plugin.timer.tick();}
+ check(document.documentElement.scrollWidth<=innerWidth,'No horizontal overflow');
+ document.getElementById('result').textContent=results.length+' kiểm tra trình duyệt: PASS. Đây là host kiểm thử, chưa phải ứng dụng Obsidian.';
+ document.documentElement.dataset.smoke='pass';
+ window.pomodoroSmoke={plugin,view,results};
+})().catch(error=>{document.body.classList.add('failed');document.getElementById('result').textContent='FAIL: '+error.message;document.documentElement.dataset.smoke='fail';});
+</script>
+</body>
+</html>
