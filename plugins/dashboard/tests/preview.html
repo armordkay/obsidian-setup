@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Dashboard — simulated Obsidian host</title>
+<link rel="stylesheet" href="../styles.css">
+<style>
+body{margin:0;background:#1c1e1f;font-family:system-ui,sans-serif}body.theme-light{background:#f7fafc}
+.test-toolbar{max-width:1180px;margin:12px auto 0;display:flex;align-items:center;justify-content:space-between;padding:0 16px;gap:12px;color:#a8b5c1;font-size:12px}.theme-light .test-toolbar{color:#50657a}.test-toolbar button{padding:6px 10px;background:transparent;border:1px solid #74828e;border-radius:6px;color:inherit;cursor:pointer}#host{width:100%;margin:auto}#host-status{max-width:1148px;margin:0 auto;color:#79d2f4;padding:8px 16px;font-size:12px}
+</style>
+</head>
+<body class="theme-dark">
+<div class="test-toolbar"><span>Simulated Obsidian host · Synthetic data</span><button id="theme" type="button">Change theme</button></div>
+<div id="host"></div><p id="host-status" role="status"></p>
+<script src="browser-host.js"></script><script src="../main.js"></script>
+<script>window.startDashboardPreview();</script>
+</body></html>

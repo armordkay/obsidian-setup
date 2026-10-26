@@ -1,0 +1,98 @@
+{
+  "name": "Dashboard",
+  "source": "styles.css",
+  "surface": "Obsidian dashboard tab and Markdown embed",
+  "authority": "User-approved mockup v11 plus requested header/avatar/compact-button updates through 1.4.4",
+  "themes": {
+    "light": {
+      "page": "#f7fafc",
+      "panel": "#edf1f4",
+      "text": "#24364b",
+      "title": "#132b43",
+      "green": "#157657",
+      "empty": "#dce3e7",
+      "levels": [
+        "#b6d8c3",
+        "#72b38b",
+        "#278653"
+      ]
+    },
+    "dark": {
+      "page": "#1c1e1f",
+      "panel": "#23292d",
+      "text": "#dce3e9",
+      "title": "#f1f5f7",
+      "green": "#7ac6a6",
+      "empty": "#30383d",
+      "levels": [
+        "#355d49",
+        "#508b68",
+        "#7ac6a6"
+      ]
+    }
+  },
+  "layout": {
+    "maxWidth": 1180,
+    "panelRadius": 16,
+    "heatmapColumns": 53,
+    "heatmapRows": 7,
+    "heatmapMinWidth": 790,
+    "containerBreakpoints": [
+      760,
+      600,
+      320
+    ],
+    "avatar": {
+      "defaultSource": "assets/cat.jpg",
+      "customSource": "Plugin images directory",
+      "min": 108,
+      "max": 200,
+      "compact": 72,
+      "radius": 14,
+      "setupPreview": 64
+    },
+    "dateAlignment": "left",
+    "dateDivider": {
+      "width": 1,
+      "color": "var(--db-border)",
+      "textPadding": [
+        32,
+        64
+      ],
+      "compactPadding": 16
+    },
+    "clock": {
+      "format": "HH:mm",
+      "min": 24,
+      "max": 36
+    },
+    "setUp": {
+      "width": "auto",
+      "horizontalPadding": 14,
+      "minHeight": 36,
+      "whiteSpace": "nowrap"
+    },
+    "headerAlignment": "left",
+    "headerGap": [
+      32,
+      80
+    ],
+    "dateVerticalAlignment": {
+      "weekday": "top",
+      "clock": "bottom",
+      "narrowOverflow": "grow"
+    }
+  },
+  "typography": {
+    "family": "var(--font-interface,system-ui,sans-serif)",
+    "dateMin": 30,
+    "dateMax": 60,
+    "section": 20,
+    "body": 15,
+    "weekday": {
+      "min": 20,
+      "max": 24
+    },
+    "weekdayBottomGap": 2
+  }
+}
