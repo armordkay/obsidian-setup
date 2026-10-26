@@ -1,7 +1,7 @@
 {
   "id": "dashboard",
   "name": "Dashboard",
-  "version": "1.4.4",
+  "version": "1.4.8",
   "minAppVersion": "1.5.0",
   "description": "Vault file search, a personal date header, and a GitHub-style activity tracker powered by daily notes.",
   "author": "armordkay",

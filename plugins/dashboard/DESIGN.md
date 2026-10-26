@@ -1,7 +1,7 @@
 # Dashboard visual contract
 
 The user-approved visual reference is mockup v11 with the subsequent requested
-header updates through 1.4.4: search → cat portrait/date/clock → Activity Signal. All UI is English.
+header updates through 1.4.8: search → cat portrait/date/clock → Activity Signal. All UI is English.
 
 This is an operating surface: file selection, date navigation, and daily review
 are the primary interactions. There is no motivational copy, daily shortcut,
@@ -152,3 +152,42 @@ places it at the bottom, aligned to the avatar on layouts with enough height.
 Avatar stays anchored top-left with the same size, divider and wide spacing.
 In very narrow panes where wrapped date text exceeds the avatar height, the
 column grows naturally to avoid overlapping or clipping content.
+
+
+## Version 1.4.5 — keep clock within avatar height
+
+The header now uses one avatar-size CSS variable for both the portrait column
+and the explicit grid row. Date column min-height is zero so wrapped text cannot
+enlarge the row. Existing wide-pane typography and spacing remain. Below 600px,
+weekday/date/clock scale to fit the shared row height; the narrowest weekday is
+13px and date/time retain an 18px minimum. Descendants do not flex-shrink.
+The clock uses the remaining top margin, aligning its bottom with the portrait.
+No clipping, absolute positioning, per-view observer, or runtime dependency.
+
+
+## Version 1.4.6 — normal-layout clock row alignment
+
+The latest user clarification limits bottom alignment to normal layouts. The
+avatar remains top-left with the existing divider and spacing. One shared
+avatar-size variable defines portrait width and date-column height. The date
+column uses three grid rows: weekday, flexible date area, and clock. The clock
+row ends exactly at the avatar bottom; line-height 1 removes extra clock leading.
+Local margin/padding resets on direct children resist Markdown host typography.
+
+At container content widths of 600px or less, date height becomes auto and rows
+flow naturally. Clock gets a 12px top margin. Readable 20px weekday / 30–36px
+minimum date / 24px clock sizing is retained; compact layouts no longer shrink
+text to fit the image height or require clock/avatar bottom alignment.
+
+
+## Version 1.4.7 — lower the date slightly
+
+On normal layouts, the date heading has an 8px top margin. Weekday, avatar and
+clock row positions stay fixed. At 600px container width or below, this extra
+margin is removed to preserve the natural compact flow.
+
+
+## Version 1.4.8 — lower date another small step
+
+Normal-layout date top margin increases from 8px to 12px (4px lower). Weekday,
+avatar and bottom-aligned clock retain their positions; compact margin stays 0.

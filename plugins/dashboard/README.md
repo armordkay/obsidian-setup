@@ -4,11 +4,13 @@ Plugin dashboard riêng, có tab và khối nhúng trong ghi chú. Giao diện t
 tự theo light/dark theme của Obsidian, bám theo mockup v11 đã chốt.
 Phần đầu được cập nhật theo yêu cầu mới: ảnh mèo vuông bo góc bên trái, thứ/ngày
 căn trái bên cạnh avatar giữ nguyên ở góc trái, cách nhau bằng đường phân cách dọc
-và khoảng đệm thoáng, cùng giờ địa phương dạng `HH:mm`; bỏ lịch tháng nhỏ để dùng cùng plugin Calendar hiện có.
+và khoảng đệm thoáng. Ở bố cục thường, đáy hàng giờ `HH:mm` ngang đáy avatar.
+Khi pane co hẹp, chữ tự xuống dòng và không ép gióng đáy với ảnh.
+Bỏ lịch tháng nhỏ để dùng cùng plugin Calendar hiện có.
 
 ## Cài đặt
 
-Giải nén `releases/dashboard-1.4.4.zip`, chép ba file sau vào
+Giải nén `releases/dashboard-1.4.8.zip`, chép ba file sau vào
 `VAULT/.obsidian/plugins/dashboard/`:
 
 ```text

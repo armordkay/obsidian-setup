@@ -2,7 +2,7 @@
   "name": "Dashboard",
   "source": "styles.css",
   "surface": "Obsidian dashboard tab and Markdown embed",
-  "authority": "User-approved mockup v11 plus requested header/avatar/compact-button updates through 1.4.4",
+  "authority": "User-approved mockup v11 plus requested header/avatar/compact-button updates through 1.4.8",
   "themes": {
     "light": {
       "page": "#f7fafc",
@@ -79,8 +79,12 @@
     ],
     "dateVerticalAlignment": {
       "weekday": "top",
-      "clock": "bottom",
-      "narrowOverflow": "grow"
+      "clock": "avatar bottom above 600px container content width",
+      "narrowOverflow": "natural height and wrapping; bottom alignment not required"
+    },
+    "dateHeadingTopMargin": {
+      "normal": 12,
+      "compact": 0
     }
   },
   "typography": {

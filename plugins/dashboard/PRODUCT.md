@@ -41,3 +41,5 @@ Mockup approval and daily properties example supplied in the conversation. Exist
 Keyboard search and date navigation, readable focus states, textual activity levels and daily details. No remote fonts, imagery, or network requests.
 
 Summary labels show active days and property names only; counts follow the configured rules.
+
+At normal pane widths, the date column matches avatar height and the bottom of the clock row aligns with the portrait bottom. At compact widths, content flows naturally without enforcing bottom alignment or shrinking type to fit the image.

@@ -1,0 +1,558 @@
+.calendar-deadlines-settings-banner {
+  background-color: var(--background-secondary-alt);
+  border-radius: 12px;
+  margin-bottom: 2em;
+  padding: 1.5em;
+  text-align: left;
+}
+
+.calendar-deadlines-settings-banner h4 {
+  margin: 0;
+}
+
+/* Obsidian owns the theme. No system-media query or separate toggle is needed. */
+.calendar-deadlines-root,
+.theme-dark .calendar-deadlines-root {
+  color-scheme: dark;
+  --cd-font: Arial, sans-serif;
+  --cd-radius: 8px;
+  --cd-panel-radius: 16px;
+  --cd-inset: 12px;
+  --cd-marker-size: 32px;
+  --cd-timeline-gap: 12px;
+  --cd-background: #191919;
+  --cd-surface: #262c31;
+  --cd-hover: #333c43;
+  --cd-border: #3b454e;
+  --cd-text: #dce3e9;
+  --cd-title: #f1f5f7;
+  --cd-muted: #a8b5c1;
+  --cd-dim: #8a99a7;
+  --cd-accent: #7ac6a6;
+  --cd-selected: #5ead7e;
+  --cd-selected-text: #10251b;
+  --cd-today: #62c5ec;
+  --cd-today-text: #0a2632;
+  --cd-focus: #62c5ec;
+  --cd-deadline: #f5f7f9;
+  --cd-deadline-text: #263445;
+  --cd-deadline-border: #c4cfd8;
+  --cd-deadline-dot: #4b5b6a;
+  --cd-danger: #d96070;
+  --cd-danger-background: var(--cd-danger);
+  --cd-danger-text: #27121a;
+}
+
+.theme-light .calendar-deadlines-root {
+  color-scheme: light;
+  --cd-background: #f7fafc;
+  --cd-surface: #edf1f4;
+  --cd-hover: #e1e9ef;
+  --cd-border: #c4ced7;
+  --cd-text: #24364b;
+  --cd-title: #132b43;
+  --cd-muted: #50657a;
+  --cd-dim: #596e82;
+  --cd-accent: #157657;
+  --cd-selected: #72c698;
+  --cd-today: #79d2f4;
+  --cd-focus: #1670a0;
+  --cd-deadline: #dce2e8;
+  --cd-deadline-text: #24364b;
+  --cd-deadline-border: #aebbc8;
+  --cd-deadline-dot: #49637e;
+  --cd-danger: #c93b52;
+  --cd-danger-text: #ffffff;
+}
+
+.calendar-deadlines-root {
+  width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+  border: 1px solid var(--cd-border);
+  border-radius: var(--cd-panel-radius);
+  background: var(--cd-background);
+  color: var(--cd-text);
+  font-family: var(--cd-font);
+  line-height: 1.5;
+  font-variant-numeric: tabular-nums;
+}
+
+.calendar-deadlines-root ::selection {
+  background: var(--cd-selected);
+  color: var(--cd-selected-text);
+}
+
+/* Calendar overrides are scoped to this fork, including the shared UI library. */
+.calendar-deadlines-root #calendar-container {
+  --color-background-heading: transparent;
+  --color-background-day: transparent;
+  --color-background-weeknum: transparent;
+  --color-background-weekend: transparent;
+  --color-dot: var(--cd-accent);
+  --color-arrow: var(--cd-muted);
+  --color-button: var(--cd-muted);
+  --color-text-title: var(--cd-title);
+  --color-text-heading: var(--cd-accent);
+  --color-text-day: var(--cd-text);
+  --color-text-today: var(--cd-today-text);
+  --color-text-weeknum: var(--cd-muted);
+  background: transparent !important;
+  padding: var(--cd-inset) !important;
+}
+
+.calendar-deadlines-root #calendar-container,
+.calendar-deadlines-root #calendar-container * {
+  font-family: var(--cd-font) !important;
+  font-weight: 700 !important;
+}
+
+.calendar-deadlines-root #calendar-container .nav {
+  margin: 0 0 12px;
+  padding: 0;
+  gap: 8px;
+}
+
+.calendar-deadlines-root #calendar-container .title {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  min-width: 0;
+  margin: 0;
+  font-size: 20px;
+  line-height: 28px;
+}
+
+.calendar-deadlines-root #calendar-container .calendar {
+  /* Older Calendar snippets can force a dark table even in Obsidian light mode. */
+  background: transparent !important;
+  padding: 0 !important;
+  border-collapse: collapse !important;
+  border: none !important;
+  width: 100% !important;
+  table-layout: fixed;
+}
+
+.calendar-deadlines-root #calendar-container .calendar colgroup,
+.calendar-deadlines-root #calendar-container .calendar col,
+.calendar-deadlines-root #calendar-container .calendar thead,
+.calendar-deadlines-root #calendar-container .calendar tbody,
+.calendar-deadlines-root #calendar-container .calendar tr,
+.calendar-deadlines-root #calendar-container .calendar td,
+.calendar-deadlines-root #calendar-container .calendar th {
+  background: transparent !important;
+}
+
+.calendar-deadlines-root #calendar-container .calendar td,
+.calendar-deadlines-root #calendar-container .calendar th {
+  border: none !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+.calendar-deadlines-root #calendar-container .calendar thead th {
+  color: var(--cd-accent) !important;
+  font-size: 14px !important;
+  text-transform: none !important;
+  border-bottom: 1px solid var(--cd-border) !important;
+  padding-bottom: 6px !important;
+}
+
+.calendar-deadlines-root #calendar-container .week-num {
+  color: var(--cd-muted) !important;
+  font-size: 11px !important;
+}
+
+.calendar-deadlines-root #calendar-container .week-num:hover {
+  background: var(--cd-hover) !important;
+}
+
+.calendar-deadlines-root #calendar-container .day {
+  --cd-day-dot: var(--cd-accent);
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  min-height: 34px;
+  line-height: 20px;
+  background: transparent !important;
+  color: var(--cd-text) !important;
+  font-size: 14px !important;
+  border-radius: var(--cd-radius) !important;
+  padding: 4px !important;
+  cursor: pointer;
+  transition: background-color 120ms ease-out, color 120ms ease-out;
+}
+
+.calendar-deadlines-root #calendar-container .day.adjacent-month {
+  color: var(--cd-dim) !important;
+  opacity: 1;
+}
+
+.calendar-deadlines-root #calendar-container .day:hover {
+  background: var(--cd-hover) !important;
+  color: var(--cd-title) !important;
+}
+
+.calendar-deadlines-root #calendar-container .day.today {
+  --cd-day-dot: var(--cd-today-text);
+  background: var(--cd-today) !important;
+  color: var(--cd-today-text) !important;
+  border: none !important;
+}
+
+.calendar-deadlines-root #calendar-container .day.has-deadline,
+.calendar-deadlines-root #calendar-container .day.has-deadline:hover {
+  --cd-day-dot: var(--cd-deadline-dot);
+  background: var(--cd-deadline) !important;
+  color: var(--cd-deadline-text) !important;
+  box-shadow: inset 0 0 0 1px var(--cd-deadline-border);
+}
+
+.calendar-deadlines-root #calendar-container .day.has-deadline.today,
+.calendar-deadlines-root #calendar-container .day.has-deadline.today:hover {
+  box-shadow: inset 0 0 0 2px var(--cd-today);
+}
+
+.calendar-deadlines-root #calendar-container .day.has-overdue-deadline,
+.calendar-deadlines-root #calendar-container .day.has-overdue-deadline:hover,
+.calendar-deadlines-root #calendar-container .day.has-overdue-deadline.today,
+.calendar-deadlines-root #calendar-container .day.has-overdue-deadline.today:hover {
+  --cd-day-dot: var(--cd-danger-text);
+  background: var(--cd-danger-background) !important;
+  color: var(--cd-danger-text) !important;
+  border: none !important;
+  box-shadow: none;
+}
+
+/* Selection overrides every day state with a green background and no border. */
+.calendar-deadlines-root #calendar-container .day.active,
+.calendar-deadlines-root #calendar-container .day.active:hover,
+.calendar-deadlines-root #calendar-container .day.has-deadline.active,
+.calendar-deadlines-root #calendar-container .day.has-deadline.active:hover,
+.calendar-deadlines-root #calendar-container .week-num.active,
+.calendar-deadlines-root #calendar-container .week-num.active:hover {
+  --cd-day-dot: var(--cd-selected-text);
+  background: var(--cd-selected) !important;
+  color: var(--cd-selected-text) !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.calendar-deadlines-root #calendar-container .dot-container {
+  display: flex;
+  justify-content: center;
+  gap: 2px;
+  margin-top: 1px;
+}
+
+/* Filled note markers and hollow task markers share the current cell contrast. */
+.calendar-deadlines-root #calendar-container .dot-container .dot,
+.calendar-deadlines-root #calendar-container .dot-container .hollow {
+  background: transparent !important;
+  width: 4px !important;
+  height: 4px !important;
+  flex: 0 0 4px;
+  margin: 0;
+}
+
+.calendar-deadlines-root #calendar-container .dot-container .filled {
+  fill: var(--cd-day-dot, var(--cd-accent)) !important;
+}
+
+.calendar-deadlines-root #calendar-container .dot-container .hollow {
+  fill: none !important;
+  stroke: var(--cd-day-dot, var(--cd-accent)) !important;
+}
+
+.calendar-deadlines-root #calendar-container .month {
+  color: var(--cd-title) !important;
+}
+
+.calendar-deadlines-root #calendar-container .year {
+  color: var(--cd-accent) !important;
+  font-size: 1em !important;
+}
+
+.calendar-deadlines-root #calendar-container .reset-button {
+  color: var(--cd-muted) !important;
+  font-size: 11px;
+  letter-spacing: normal;
+  border-radius: var(--cd-radius);
+}
+
+.calendar-deadlines-root #calendar-container .reset-button:hover {
+  background: var(--cd-hover);
+  color: var(--cd-title) !important;
+}
+
+.calendar-deadlines {
+  background: transparent;
+  color: var(--cd-text);
+  font-family: var(--cd-font);
+  padding: 16px var(--cd-inset) var(--cd-inset);
+  border-top: 1px solid var(--cd-border);
+}
+
+.calendar-deadlines,
+.calendar-deadlines * {
+  box-sizing: border-box;
+}
+
+.calendar-deadlines .deadline-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 32px;
+}
+
+.calendar-deadlines h4 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  color: var(--cd-title);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 24px;
+  letter-spacing: normal;
+  text-transform: none;
+}
+
+.calendar-deadlines h4 span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  min-width: 24px;
+  height: 24px;
+  padding: 0 6px;
+  border: 1px solid var(--cd-border);
+  border-radius: var(--cd-radius);
+  background: var(--cd-surface);
+  color: var(--cd-text);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.calendar-deadlines .deadline-period,
+.calendar-deadlines .deadline-empty,
+.calendar-deadlines [role="status"] {
+  color: var(--cd-muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.calendar-deadlines .deadline-period {
+  margin: 8px 0 16px;
+}
+
+.calendar-deadlines button {
+  font-family: inherit;
+  cursor: pointer;
+  text-transform: none;
+  letter-spacing: normal;
+  transition: background-color 120ms ease-out, border-color 120ms ease-out, color 120ms ease-out;
+}
+
+.calendar-deadlines button:focus-visible {
+  outline: 2px solid var(--cd-focus);
+  outline-offset: 2px;
+}
+
+.calendar-deadlines button:disabled {
+  cursor: default;
+  opacity: 0.55;
+}
+
+.calendar-deadlines .deadline-header button,
+.calendar-deadlines [role="status"] button {
+  flex-shrink: 0;
+  padding: 0 10px;
+  min-height: 32px;
+  height: auto;
+  border: 1px solid var(--cd-border);
+  border-radius: var(--cd-radius);
+  background: var(--cd-surface);
+  color: var(--cd-text);
+  box-shadow: none;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.calendar-deadlines .deadline-header button:hover,
+.calendar-deadlines [role="status"] button:hover {
+  color: var(--cd-title);
+  background: var(--cd-hover);
+  border-color: var(--cd-accent);
+}
+
+.calendar-deadlines .deadline-scroll {
+  max-height: none;
+  overflow: visible;
+}
+
+.calendar-deadlines .deadline-scroll:focus-visible {
+  outline: 2px solid var(--cd-focus);
+  outline-offset: -2px;
+}
+
+.calendar-deadlines .deadline-timeline {
+  position: relative;
+  padding: 4px 6px 4px 0;
+}
+
+.calendar-deadlines .deadline-timeline::before {
+  content: "";
+  position: absolute;
+  left: calc(var(--cd-marker-size) / 2 - 1px);
+  top: 8px;
+  bottom: 16px;
+  width: 2px;
+  background: var(--cd-border);
+}
+
+.calendar-deadlines .deadline-group {
+  position: relative;
+  padding: 0 0 8px;
+}
+
+.calendar-deadlines ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.calendar-deadlines li {
+  display: grid;
+  grid-template-columns: var(--cd-marker-size) minmax(0, 1fr);
+  align-items: flex-start;
+  gap: var(--cd-timeline-gap);
+  padding: 6px 0 12px;
+  margin: 0;
+}
+
+.calendar-deadlines .deadline-marker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: var(--cd-marker-size);
+  height: var(--cd-marker-size);
+  min-width: 0;
+  min-height: 0;
+  margin-top: 2px;
+  padding: 0;
+  border: 1px solid var(--cd-border);
+  border-radius: 50%;
+  background: var(--cd-surface);
+  color: var(--cd-accent);
+  box-shadow: none;
+}
+
+.calendar-deadlines .deadline-marker svg {
+  display: block;
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.calendar-deadlines .deadline-time {
+  color: var(--cd-muted);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 18px;
+  font-variant-numeric: tabular-nums;
+}
+
+.calendar-deadlines .deadline-task,
+.calendar-deadlines .deadline-date {
+  background: transparent;
+  box-shadow: none;
+  border: none;
+  height: auto;
+  min-height: 0;
+  padding: 0;
+  text-align: left;
+  color: var(--cd-text);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.calendar-deadlines .deadline-task {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  width: 100%;
+  gap: 2px;
+}
+
+.calendar-deadlines .deadline-title {
+  color: var(--cd-title);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 20px;
+}
+
+.calendar-deadlines .deadline-date {
+  margin-left: calc(var(--cd-marker-size) + var(--cd-timeline-gap));
+  max-width: calc(100% - var(--cd-marker-size) - var(--cd-timeline-gap));
+  padding: 4px 0 6px;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 18px;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  color: var(--cd-muted);
+}
+
+.calendar-deadlines .deadline-group.selected > .deadline-date {
+  color: var(--cd-accent);
+}
+
+.calendar-deadlines .deadline-group.selected .deadline-marker,
+.calendar-deadlines .deadline-marker:hover {
+  background: var(--cd-selected);
+  border-color: var(--cd-selected);
+  color: var(--cd-selected-text);
+}
+
+.calendar-deadlines .deadline-task:hover .deadline-title,
+.calendar-deadlines .deadline-date:hover {
+  color: var(--cd-accent);
+}
+
+.calendar-deadlines .deadline-task small {
+  color: var(--cd-muted);
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 16px;
+}
+
+/* Timeline errors use the same theme palette as overdue calendar cells. */
+.calendar-deadlines .deadline-group .overdue .deadline-marker,
+.calendar-deadlines .deadline-group .overdue .deadline-marker:hover {
+  background: var(--cd-danger-background);
+  border-color: var(--cd-danger-background);
+  color: var(--cd-danger-text);
+}
+
+.calendar-deadlines .overdue .deadline-title,
+.calendar-deadlines .overdue .deadline-task:hover .deadline-title,
+.calendar-deadlines .overdue .deadline-time {
+  color: var(--cd-danger);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .calendar-deadlines-root #calendar-container .day,
+  .calendar-deadlines button {
+    transition: none;
+  }
+}

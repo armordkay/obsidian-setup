@@ -52,16 +52,22 @@ try:
         js(f"document.body.className='theme-{mode}';")
         for width in [1440, 700, 390, 280]:
             request('POST', prefix + '/window/rect', {'width': width, 'height': 1080})
+            js(f"document.getElementById('host').style.width='{width}px';")
             result = js("""
                 const root=document.querySelector('.vault-dashboard'), input=root.querySelector('.db-search input');input.focus();
                 const bar=root.querySelector('.db-search'), c=getComputedStyle(bar), ic=getComputedStyle(input);
                 const green=getComputedStyle(root.querySelector('.db-year')).color;
                 const levels=[1,2,3].map(i=>getComputedStyle(root.querySelector('.db-cells .db-l'+i)).backgroundColor);
+                const rootStyle=getComputedStyle(root),compact=root.clientWidth-parseFloat(rootStyle.paddingLeft)-parseFloat(rootStyle.paddingRight)<=600;
                 const intro=root.querySelector('.db-intro').getBoundingClientRect(),weekdayStyle=getComputedStyle(root.querySelector('.db-weekday'));
                 const dateEl=root.querySelector('.db-date-block'),dateStyle=getComputedStyle(dateEl),date=dateEl.getBoundingClientRect(),avatar=root.querySelector('.db-avatar-frame').getBoundingClientRect(),setup=root.querySelector('.db-setup-toggle').getBoundingClientRect();
-                return {overflow:document.documentElement.scrollWidth>innerWidth,focus:bar.matches(':focus-within'),outline:ic.outlineStyle,
+                const weekday=root.querySelector('.db-weekday'),heading=root.querySelector('.db-date-block h1'),clock=root.querySelector('.db-clock');
+                let allDatesFit=true;const oldWeekday=weekday.textContent;
+                for(const day of ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday']){weekday.textContent=day;for(const value of ['Oct 1, 2026','Oct 27, 2026','Sep 30, 2026']){heading.textContent=value;allDatesFit &&= (compact || Math.abs(clock.getBoundingClientRect().bottom-avatar.bottom)<1) && heading.getBoundingClientRect().bottom<=clock.getBoundingClientRect().top+1 && weekday.scrollWidth<=weekday.clientWidth+1;}}
+                weekday.textContent=oldWeekday;heading.replaceChildren();[...dashboardTest.plugin.boards][0].renderHeader();
+                return {compact,allDatesFit,overflow:document.documentElement.scrollWidth>innerWidth,focus:bar.matches(':focus-within'),outline:ic.outlineStyle,
                   inputBackground:ic.backgroundColor,inset:c.boxShadow,green,levels,avatarLeft:avatar.right<=date.left,square:Math.abs(avatar.width-avatar.height)<1,avatarRadius:parseFloat(getComputedStyle(root.querySelector('.db-avatar-frame')).borderRadius),dateAlign:getComputedStyle(root.querySelector('.db-date-block')).textAlign,clock:root.querySelector('.db-clock').textContent,calendar:!!root.querySelector('.db-calendar'),
-                  weekdayTop:root.querySelector('.db-weekday').getBoundingClientRect().top-avatar.top,clockBottom:root.querySelector('.db-clock').getBoundingClientRect().bottom-avatar.bottom,avatarInset:avatar.left-intro.left,dateSize:parseFloat(getComputedStyle(root.querySelector('.db-date-block h1')).fontSize),clockSize:parseFloat(getComputedStyle(root.querySelector('.db-clock')).fontSize),weekdaySize:parseFloat(weekdayStyle.fontSize),weekdayGap:parseFloat(weekdayStyle.marginBottom),summaryLabels:[...root.querySelectorAll('.db-summary > span > span')].map(el=>el.textContent),dividerWidth:dateStyle.borderLeftWidth,dividerStyle:dateStyle.borderLeftStyle,dividerColor:dateStyle.borderLeftColor,dividerHeight:date.height,avatarHeight:avatar.height,datePadding:parseFloat(dateStyle.paddingLeft),avatarGap:date.left-avatar.right,
+                  dateMarginTop:parseFloat(getComputedStyle(heading).marginTop),weekdayTop:root.querySelector('.db-weekday').getBoundingClientRect().top-avatar.top,clockBottom:root.querySelector('.db-clock').getBoundingClientRect().bottom-avatar.bottom,avatarInset:avatar.left-intro.left,dateSize:parseFloat(getComputedStyle(root.querySelector('.db-date-block h1')).fontSize),clockSize:parseFloat(getComputedStyle(root.querySelector('.db-clock')).fontSize),weekdaySize:parseFloat(weekdayStyle.fontSize),weekdayGap:parseFloat(weekdayStyle.marginBottom),summaryLabels:[...root.querySelectorAll('.db-summary > span > span')].map(el=>el.textContent),dividerWidth:dateStyle.borderLeftWidth,dividerStyle:dateStyle.borderLeftStyle,dividerColor:dateStyle.borderLeftColor,dividerHeight:date.height,avatarHeight:avatar.height,datePadding:parseFloat(dateStyle.paddingLeft),avatarGap:date.left-avatar.right,
                   setupCompact:setup.width<=110 && setup.width>setup.height*1.5,setupWhiteSpace:getComputedStyle(root.querySelector('.db-setup-toggle')).whiteSpace,
                   setupText:root.querySelector('.db-setup-toggle').textContent,setupBackground:getComputedStyle(root.querySelector('.db-setup-toggle')).backgroundColor,
                   columns:getComputedStyle(root.querySelector('.db-cells')).gridTemplateColumns.split(' ').length,
@@ -76,11 +82,15 @@ try:
             assert result['dividerWidth']=='1px' and result['dividerStyle']=='solid', result
             assert result['dividerColor']==('rgb(59, 69, 78)' if mode=='dark' else 'rgb(196, 206, 215)'), result
             assert result['dividerHeight']>=result['avatarHeight']-1 and result['datePadding']>=16 and result['avatarGap']>=18, result
-            assert abs(result['avatarInset'])<1 and 20<=result['weekdaySize']<=24 and result['weekdayGap']<=2, result
-            assert 30<=result['dateSize']<=60 and 24<=result['clockSize']<=36, result
+            assert abs(result['avatarInset'])<1 and 13<=result['weekdaySize']<=24 and result['weekdayGap']<=2, result
+            assert 18<=result['dateSize']<=60 and 18<=result['clockSize']<=36, result
+            assert result['allDatesFit'], result
             assert abs(result['weekdayTop'])<1, result
-            if width>=700:
-                assert abs(result['clockBottom'])<1, result
+            assert result['dateMarginTop']==(0 if result['compact'] else 12), result
+            if not result['compact']:
+                assert abs(result['clockBottom'])<1 and abs(result['dividerHeight']-result['avatarHeight'])<1, result
+            else:
+                assert result['weekdaySize']>=20 and result['dateSize']>=30 and result['clockSize']>=24, result
             assert result['summaryLabels']==['active days','deep_work','wins'], result
             assert result['setupCompact'] and result['setupWhiteSpace']=='nowrap', result
             expected = ['rgb(53, 93, 73)', 'rgb(80, 139, 104)', 'rgb(122, 198, 166)'] if mode == 'dark' else ['rgb(182, 216, 195)', 'rgb(114, 179, 139)', 'rgb(39, 134, 83)']
@@ -98,6 +108,11 @@ try:
     assert js("const r=document.querySelector('.vault-dashboard');return r.querySelector('.db-avatar-frame').getBoundingClientRect().right<=r.querySelector('.db-date-block').getBoundingClientRect().left;")
     js("document.getElementById('host').style.width='100%';")
     print('PASS narrow pane in wide window')
+    # Match Markdown embed typography to catch host heading/time margins.
+    js("const host=document.getElementById('host');host.classList.add('markdown-rendered');const s=document.createElement('style');s.id='host-typography';s.textContent='.markdown-rendered h1 {margin-block:24px 16px;padding-block:8px} .markdown-rendered time {margin-block:12px 16px;padding-block:4px}';document.head.append(s);")
+    assert js("const root=document.querySelector('.vault-dashboard'),a=root.querySelector('.db-avatar-frame').getBoundingClientRect(),c=root.querySelector('.db-clock').getBoundingClientRect(),h=root.querySelector('h1').getBoundingClientRect();return Math.abs(a.bottom-c.bottom)<1 && h.bottom<=c.top && getComputedStyle(root.querySelector('h1')).marginBottom==='0px';")
+    js("document.getElementById('host-typography').remove();document.getElementById('host').classList.remove('markdown-rendered');")
+    print('PASS desktop clock/avatar alignment under Markdown host spacing')
     js("const p=dashboardTest.plugin;p.now=()=>new Date(2026,9,26,13,5);p.checkToday();")
     wait_for("document.querySelector('.db-clock').textContent==='13:05'")
     js("const p=dashboardTest.plugin;p.now=()=>new Date(2026,9,26,12);p.checkToday();")
